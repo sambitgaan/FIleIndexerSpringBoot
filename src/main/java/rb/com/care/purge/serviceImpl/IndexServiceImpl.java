@@ -8,6 +8,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.document.TextField;
+import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import rb.com.care.purge.service.IndexService;
 import rb.com.care.purge.util.Indexing;
+import rb.com.care.purge.util.IndexingExecutor;
 
 import java.io.*;
 import java.time.Duration;
@@ -76,7 +78,7 @@ public class IndexServiceImpl implements IndexService {
         IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
         iwc.setCommitOnClose(true);
         iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
-        iwc.setMergeScheduler(new org.apache.lucene.index.SerialMergeScheduler());
+        iwc.setMergeScheduler(new ConcurrentMergeScheduler());
         iwc.setRAMBufferSizeMB(1024);
         IndexWriter iw = new IndexWriter(index, iwc);
         return iw;
@@ -130,16 +132,35 @@ public class IndexServiceImpl implements IndexService {
         ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
         // executor
 //		for (int i = 0; i < checkedData.size(); i++) {
-//			executor.submit(new IndexingExecutor(checkedData.get(i), i));
+//			executor.submit(new Indexing(iw, checkedData.get(i), i));
 //		}
 
         // thread approch
         for (int i = 0; i < checkedData.size(); i++) {
-            executor.submit(new Indexing(iw, checkedData.get(i), i));
+            executor.submit(new IndexingExecutor(checkedData.get(i), i));
         }
         executor.shutdown();
         while (!executor.isTerminated()) {}
 
+    }
+
+    public String createCommonIndexes() throws CorruptIndexException, LockObtainFailedException, IOException, ParseException {
+
+        Directory indexE = getIndexDirectory("IndexDir0");
+        Directory indexA = getIndexDirectory("IndexDir1");
+        Directory indexB = getIndexDirectory("IndexDir2");
+        Directory indexC = getIndexDirectory("IndexDir3");
+        Directory indexD = getIndexDirectory("IndexDir4");
+        Directory indexF = getIndexDirectory("IndexDir5");
+        Directory indexG = getIndexDirectory("IndexDir6");
+        Directory indexH = getIndexDirectory("IndexDir7");
+        Directory indexI = getIndexDirectory("IndexDir8");
+        Directory indexJ = getIndexDirectory("IndexDir9");
+
+        IndexWriter writer = getIndexWriter("mergedDir");
+        writer.addIndexes(new Directory[]{indexA, indexB, indexC, indexD, indexE, indexF, indexG, indexH, indexI, indexJ});
+        writer.close();
+        return "Common Indexes Data Generated";
     }
 
 }
