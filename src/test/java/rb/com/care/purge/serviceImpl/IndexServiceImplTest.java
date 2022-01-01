@@ -52,4 +52,14 @@ class IndexServiceImplTest {
         Duration timeElapsed = Duration.between(start, stop);
         System.out.println( "Time taken for indexing: " + timeElapsed.getSeconds());
     }
+
+    @Test
+    void createCommonIndexes() throws IOException, ParseException {
+        Instant start = Instant.now();
+        IndexServiceImpl indexService = new IndexServiceImpl();
+        indexService.createCommonIndexes();
+        Instant stop = Instant.now();
+        Duration timeElapsed = Duration.between(start, stop);
+        System.out.println( "Time taken for merged Directory generation: " + timeElapsed.getSeconds());
+    }
 }
