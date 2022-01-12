@@ -41,8 +41,7 @@ public class IndexingExecutor implements Runnable{
             e.printStackTrace();
         }
         try {
-            for (int i = 0; i < f.size(); i++) {
-                File file = f.get(i);
+            for (File file : f) {
                 indexFileWithIndexWriter(iw, file);
             }
             System.out.println(count);
@@ -60,14 +59,12 @@ public class IndexingExecutor implements Runnable{
         iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
         iwc.setMergeScheduler(new org.apache.lucene.index.SerialMergeScheduler());
         iwc.setRAMBufferSizeMB(1024);
-        IndexWriter iw = new IndexWriter(index, iwc);
-        return iw;
+        return new IndexWriter(index, iwc);
     }
 
     private static Directory getIndexDirectory(String dirPath) throws IOException {
         File idxDirectory = new File(dirPath);
-        Directory index = FSDirectory.open(idxDirectory.toPath());
-        return index;
+        return FSDirectory.open(idxDirectory.toPath());
     }
 
     private static void indexFileWithIndexWriter(IndexWriter iw, File f) throws IOException, ParseException {

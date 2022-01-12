@@ -30,6 +30,7 @@ class IndexServiceImplTest {
 //        assertEquals("IndexDir", indexDirectory);
 //    }
 
+    // Index generation Sequentially
     @Test
     void startIndex() throws IOException, ParseException {
         System.out.println("Indexing has been started, please wait ...");
@@ -42,6 +43,7 @@ class IndexServiceImplTest {
     }
 
 
+    // Index generation concurrently with multiple folders
     @Test
     void createIndexes() throws IOException, ParseException {
         System.out.println("Indexing has been started, please wait ...");
@@ -53,6 +55,7 @@ class IndexServiceImplTest {
         System.out.println( "Time taken for indexing: " + timeElapsed.getSeconds());
     }
 
+    // Merging generated directories into common directory
     @Test
     void createCommonIndexes() throws IOException, ParseException {
         Instant start = Instant.now();
