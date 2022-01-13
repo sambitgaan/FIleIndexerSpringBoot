@@ -23,11 +23,11 @@ public class IndexingExecutor implements Runnable{
     public static AtomicInteger pendingCommits = new AtomicInteger();
     public static int PENDING_COMMIT_THRESHOLD = 1000;
 
-    private List<File> f;
+    private List<File> files;
     private Integer count;
 
-    public IndexingExecutor(List<File> f, Integer count) {
-        this.f = f;
+    public IndexingExecutor(List<File> files, Integer count) {
+        this.files = files;
         this.count = count;
     }
 
@@ -41,13 +41,32 @@ public class IndexingExecutor implements Runnable{
             e.printStackTrace();
         }
         try {
-            for (File file : f) {
-                indexFileWithIndexWriter(iw, file);
+            for (File f : files) {
+                generateIndexes(iw, f);
             }
             System.out.println(count);
         }
         catch (Exception e) {
             System.out.println("Exception is caught");
+        }
+    }
+
+    public void generateIndexes(IndexWriter iw, File f) throws IOException, ParseException {
+        if (f.isDirectory()) {
+            generateIndexesBasedOnDirectories(iw, f);
+        } else {
+            indexFileWithIndexWriter(iw, f);
+        }
+    }
+
+    public void generateIndexesBasedOnDirectories(IndexWriter iw, File dataDirectory) throws IOException, ParseException {
+        File[] files = dataDirectory.listFiles();
+        for (File f : files) {
+            if (f.isDirectory()) {
+                generateIndexes(iw, f);
+            } else {
+                indexFileWithIndexWriter(iw, f);
+            }
         }
     }
 

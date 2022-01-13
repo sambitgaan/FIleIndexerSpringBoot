@@ -11,16 +11,25 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import rb.com.care.purge.service.SearchService;
+import rb.com.care.purge.util.ClassUsingProperty;
 
 import java.io.*;
 import java.time.Duration;
 import java.time.Instant;
 
 @Service
+@Configurable
 public class SearchServiceImpl implements SearchService {
 
+    @Autowired
+    ClassUsingProperty properties;
+
+    //Get reading and writing files
     @Override
     public String searchFies() throws IOException, ParseException{
         String st;
@@ -34,37 +43,39 @@ public class SearchServiceImpl implements SearchService {
         return null;
     }
 
-    private static BufferedWriter getFileBufferedWriter() throws IOException {
-        File filePath = new File("target\\classes\\Search\\SearchFiles.txt");
+    private BufferedWriter getFileBufferedWriter() throws IOException {
+        File filePath = new File(properties.getMergedSearch());
         BufferedWriter bw = new BufferedWriter(new FileWriter(filePath));
         return bw;
     }
 
-    public static BufferedReader getFIleBufferedReader() throws IOException {
-        File file = new File("target\\classes\\Input\\List.txt");
+    public BufferedReader getFIleBufferedReader() throws IOException {
+        File file = new File(properties.getFileList());
         return new BufferedReader(new FileReader(file));
     }
 
-    private static Directory getIndexDirectory(String dirPath) throws IOException {
+    private Directory getIndexDirectory(String dirPath) throws IOException {
         File idxDirectory = new File(dirPath);
         Directory index = FSDirectory.open(idxDirectory.toPath());
         return index;
     }
 
-    private static void searchIndex(String searchString, BufferedWriter bw) throws IOException, ParseException {
-        Directory directory = getIndexDirectory("IndexDir");
+    // Search as per provided file data
+    private void searchIndex(String searchString, BufferedWriter bw) throws IOException, ParseException {
+        Directory directory = getIndexDirectory(properties.getMergedDir());
         DirectoryReader ireader = DirectoryReader.open(directory);
         IndexSearcher searcher = getSearcher(ireader);
         Analyzer analyzer = new StandardAnalyzer();
         QueryParser queryParser = new QueryParser("filename", analyzer);
         queryParser.setAllowLeadingWildcard(true);
         queryParser.setSplitOnWhitespace(true);
-        Query query = queryParser.parse("*" + searchString + "*");
+        Query query = queryParser.parse("*" + searchString +"*");
         ScoreDoc[] hits = searcher.search(query, 1000).scoreDocs;
         printPath(searcher, hits, bw);
         ireader.close();
     }
 
+    // Written Identified files
     private static void printPath(IndexSearcher searcher, ScoreDoc[] hits, BufferedWriter bw) throws IOException {
         for(int i = 0; i < hits.length; ++i) {
             int docId = hits[i].doc;

@@ -11,9 +11,12 @@ import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.LockObtainFailedException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 import rb.com.care.purge.service.IndexService;
+import rb.com.care.purge.util.ClassUsingProperty;
 import rb.com.care.purge.util.IndexTypes;
 
 import java.io.*;
@@ -21,23 +24,13 @@ import java.io.*;
 @Configuration
 public class IndexServiceImpl extends IndexTypes implements IndexService {
 
-    @Value( "${file.data.index}" )
-    private String indexDirectory;
-
-    @Value( "${file.data.directory}" )
-    private String dataSrcDirectory;
-
-    @Value( "${file.data.list}" )
-    private String fileList;
-
-    @Value( "${file.data.search}" )
-    private String searchList;
-
+    @Autowired
+    ClassUsingProperty properties;
 
     // Sequential Approach
     public String createIndex() throws CorruptIndexException, LockObtainFailedException, IOException, ParseException {
-        File dataDirectory = new File("Test");
-        IndexWriter iw = getIndexWriter("IndexDir");
+        File dataDirectory = new File(properties.getDirectory());
+        IndexWriter iw = getIndexWriter(properties.getIndexDirectory());
         IndexTypes indexTypes = new IndexServiceImpl();
         indexTypes.generateIndexesSequential(iw, dataDirectory);
         iw.commit();
@@ -47,8 +40,8 @@ public class IndexServiceImpl extends IndexTypes implements IndexService {
 
     // Concurrent Approach
     public String createIndexes() throws IOException, ParseException {
-        File dataDirectory = new File("Test");
-        IndexWriter iw = getIndexWriter("IndexDir");
+        File dataDirectory = new File(properties.getDirectory());
+        IndexWriter iw = getIndexWriter(properties.getIndexDirectory());
         IndexTypes indexTypes = new IndexServiceImpl();
         indexTypes.generateIndexesConcurrent(iw, dataDirectory);
         iw.commit();
@@ -87,7 +80,7 @@ public class IndexServiceImpl extends IndexTypes implements IndexService {
         Directory indexI = getIndexDirectory("IndexDir8");
         Directory indexJ = getIndexDirectory("IndexDir9");
 
-        IndexWriter writer = getIndexWriter("mergedDir");
+        IndexWriter writer = getIndexWriter(properties.getMergedDir());
         writer.addIndexes(indexA, indexB, indexC, indexD, indexE, indexF, indexG, indexH, indexI, indexJ);
         writer.close();
     }
