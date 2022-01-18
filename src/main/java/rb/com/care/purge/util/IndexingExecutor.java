@@ -23,11 +23,11 @@ public class IndexingExecutor implements Runnable{
     public static AtomicInteger pendingCommits = new AtomicInteger();
     public static int PENDING_COMMIT_THRESHOLD = 1000;
 
-    private List<File> f;
+    private List<File> files;
     private Integer count;
 
-    public IndexingExecutor(List<File> f, Integer count) {
-        this.f = f;
+    public IndexingExecutor(List<File> files, Integer count) {
+        this.files = files;
         this.count = count;
     }
 
@@ -41,14 +41,32 @@ public class IndexingExecutor implements Runnable{
             e.printStackTrace();
         }
         try {
-            for (int i = 0; i < f.size(); i++) {
-                File file = f.get(i);
-                indexFileWithIndexWriter(iw, file);
+            for (File f : files) {
+                generateIndexes(iw, f);
             }
             System.out.println(count);
         }
         catch (Exception e) {
             System.out.println("Exception is caught");
+        }
+    }
+
+    public void generateIndexes(IndexWriter iw, File f) throws IOException, ParseException {
+        if (f.isDirectory()) {
+            generateIndexesBasedOnDirectories(iw, f);
+        } else {
+            indexFileWithIndexWriter(iw, f);
+        }
+    }
+
+    public void generateIndexesBasedOnDirectories(IndexWriter iw, File dataDirectory) throws IOException, ParseException {
+        File[] files = dataDirectory.listFiles();
+        for (File f : files) {
+            if (f.isDirectory()) {
+                generateIndexes(iw, f);
+            } else {
+                indexFileWithIndexWriter(iw, f);
+            }
         }
     }
 
@@ -60,14 +78,12 @@ public class IndexingExecutor implements Runnable{
         iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
         iwc.setMergeScheduler(new org.apache.lucene.index.SerialMergeScheduler());
         iwc.setRAMBufferSizeMB(1024);
-        IndexWriter iw = new IndexWriter(index, iwc);
-        return iw;
+        return new IndexWriter(index, iwc);
     }
 
     private static Directory getIndexDirectory(String dirPath) throws IOException {
         File idxDirectory = new File(dirPath);
-        Directory index = FSDirectory.open(idxDirectory.toPath());
-        return index;
+        return FSDirectory.open(idxDirectory.toPath());
     }
 
     private static void indexFileWithIndexWriter(IndexWriter iw, File f) throws IOException, ParseException {
