@@ -30,7 +30,7 @@ public class IndexController
     ResponseEntity<String> startIndex()
     {
         try {
-            indexService.createIndex();
+            indexService.generateParallelIndex();
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }

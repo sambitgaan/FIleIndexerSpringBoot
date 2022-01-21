@@ -44,7 +44,7 @@ class IndexControllerTest {
 
     @Test
     void startIndex() throws Exception {
-        Mockito.when(indexService.createIndex()).thenReturn("Success");
+        Mockito.when(indexService.generateSequentialIndex()).thenReturn("Success");
         mockMvc.perform(MockMvcRequestBuilders.get("/rb/startIndex"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }

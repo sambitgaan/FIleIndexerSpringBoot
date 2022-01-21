@@ -22,32 +22,32 @@ class IndexServiceImplTest {
 
     // Index generation Sequentially
     @Test
-    void startIndex() throws IOException, ParseException {
+    void testGenerateSequentialIndex() throws IOException, ParseException {
         System.out.println("Indexing has been started, please wait ...");
         Instant start = Instant.now();
-        indexService.createIndex();
+        indexService.generateSequentialIndex();
         Instant stop = Instant.now();
         Duration timeElapsed = Duration.between(start, stop);
         System.out.println( "Time taken for indexing: " + timeElapsed.getSeconds());
     }
 
 
-    // Index generation concurrently with multiple folders
+    // Index generation concurrently with multi thread approch
     @Test
-    void createIndexes() throws IOException, ParseException {
+    void testParallelIndexGenerate() throws IOException, ParseException {
         System.out.println("Indexing has been started, please wait ...");
         Instant start = Instant.now();
-        indexService.createIndexes();
+        indexService.generateParallelIndex();
         Instant stop = Instant.now();
         Duration timeElapsed = Duration.between(start, stop);
         System.out.println( "Time taken for indexing: " + timeElapsed.getSeconds());
     }
 
-    // Merging generated directories into common directory
+    // Adding individual indexes in to single Directory
     @Test
-    void createCommonIndexes() throws IOException, ParseException {
+    void testMergeIndexesInSingleDirectory() throws IOException, ParseException {
         Instant start = Instant.now();
-        indexService.createCommonIndexes();
+        indexService.mergeIndexesInSingleDirectory();
         Instant stop = Instant.now();
         Duration timeElapsed = Duration.between(start, stop);
         System.out.println( "Time taken for merged Directory generation: " + timeElapsed.getSeconds());
