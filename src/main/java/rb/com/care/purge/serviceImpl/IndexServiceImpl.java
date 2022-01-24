@@ -33,19 +33,20 @@ public class IndexServiceImpl implements IndexService {
     public String generateSequentialIndex() throws CorruptIndexException, LockObtainFailedException, IOException, ParseException {
         File dataDirectory = new File(properties.getDirectory());
         IndexWriter iw = getSerializedIndexWriterConfig(properties.getIndexDirectory());
-        sequenceIndexService.startSequentialIndexing(iw, dataDirectory);
+        String response = sequenceIndexService.startSequentialIndexing(iw, dataDirectory);
         iw.commit();
         iw.close();
-        return "Indexes Generated Sequentially";
+        return response;
     }
 
     // Concurrent Approach
-    public void generateParallelIndex() throws IOException, ParseException {
+    public String generateParallelIndex() throws IOException, ParseException {
         File dataDirectory = new File(properties.getDirectory());
         IndexWriter iw = getConcurrentIndexWriterConfig(properties.getIndexDirectory());
-        parallelIndexService.startParallelIndexing(iw, dataDirectory);
+        String response = parallelIndexService.startParallelIndexing(iw, dataDirectory);
         iw.commit();
         iw.close();
+        return response;
     }
 
     private IndexWriter getSerializedIndexWriterConfig(String indexDirectory) throws IOException {
@@ -76,7 +77,7 @@ public class IndexServiceImpl implements IndexService {
     }
 
     // Merging generated directories into common directory
-    public void mergeIndexesInSingleDirectory() throws CorruptIndexException, IOException, ParseException {
+    public String mergeIndexesInSingleDirectory() throws CorruptIndexException, IOException, ParseException {
 
         Directory indexE = getIndexDirectory("IndexDir0");
         Directory indexA = getIndexDirectory("IndexDir1");
@@ -92,6 +93,8 @@ public class IndexServiceImpl implements IndexService {
         IndexWriter writer = getConcurrentIndexWriterConfig(properties.getMergedDir());
         writer.addIndexes(indexA, indexB, indexC, indexD, indexE, indexF, indexG, indexH, indexI, indexJ);
         writer.close();
+
+        return "Success";
     }
 
 }

@@ -23,7 +23,7 @@ public class SequentialIndexServiceImpl extends SequentialIndexService {
 
     // Sequential Approach
     @Override
-    public void startSequentialIndexing(IndexWriter iw, File dataDirectory) throws IOException, ParseException {
+    public String startSequentialIndexing(IndexWriter iw, File dataDirectory) throws IOException, ParseException {
         File[] files = dataDirectory.listFiles();
         for (File f : files) {
             if (f.isDirectory()) {
@@ -32,6 +32,7 @@ public class SequentialIndexServiceImpl extends SequentialIndexService {
                 indexFileWithIndexWriter(iw, f);
             }
         }
+        return "Success";
     }
 
     private static void indexFileWithIndexWriter(IndexWriter iw, File f) throws IOException, ParseException {

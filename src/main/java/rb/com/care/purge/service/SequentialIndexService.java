@@ -8,6 +8,6 @@ import java.io.IOException;
 
 public abstract class SequentialIndexService {
 
-    public abstract void startSequentialIndexing(IndexWriter iw, File dataDirectory) throws IOException, ParseException;
+    public abstract String startSequentialIndexing(IndexWriter iw, File dataDirectory) throws IOException, ParseException;
 
 }

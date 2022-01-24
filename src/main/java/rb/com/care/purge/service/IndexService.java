@@ -12,6 +12,6 @@ public interface IndexService {
     public String generateSequentialIndex() throws CorruptIndexException, LockObtainFailedException, IOException, ParseException;
 
     //Thread Approach
-    public void generateParallelIndex() throws CorruptIndexException, LockObtainFailedException, IOException, ParseException;
+    public String generateParallelIndex() throws CorruptIndexException, LockObtainFailedException, IOException, ParseException;
 
 }

@@ -40,7 +40,7 @@ public class SearchServiceImpl implements SearchService {
         }
         br1.close();
         bw.close();
-        return null;
+        return "Success";
     }
 
     private BufferedWriter getFileBufferedWriter() throws IOException {
