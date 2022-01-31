@@ -49,7 +49,7 @@ public class IndexServiceImpl implements IndexService {
         return response;
     }
 
-    private IndexWriter getSerializedIndexWriterConfig(String indexDirectory) throws IOException {
+    public IndexWriter getSerializedIndexWriterConfig(String indexDirectory) throws IOException {
         Analyzer analyzer = new StandardAnalyzer();
         Directory index = getIndexDirectory(indexDirectory);
         IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
