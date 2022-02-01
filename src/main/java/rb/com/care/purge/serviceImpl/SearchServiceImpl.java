@@ -40,7 +40,7 @@ public class SearchServiceImpl implements SearchService {
         }
         br1.close();
         bw.close();
-        return null;
+        return "Success";
     }
 
     private BufferedWriter getFileBufferedWriter() throws IOException {
@@ -63,8 +63,8 @@ public class SearchServiceImpl implements SearchService {
     // Search as per provided file data
     private void searchIndex(String searchString, BufferedWriter bw) throws IOException, ParseException {
         Directory directory = getIndexDirectory(properties.getMergedDir());
-        DirectoryReader ireader = DirectoryReader.open(directory);
-        IndexSearcher searcher = getSearcher(ireader);
+        DirectoryReader iReader = DirectoryReader.open(directory);
+        IndexSearcher searcher = getSearcher(iReader);
         Analyzer analyzer = new StandardAnalyzer();
         QueryParser queryParser = new QueryParser("filename", analyzer);
         queryParser.setAllowLeadingWildcard(true);
@@ -72,7 +72,7 @@ public class SearchServiceImpl implements SearchService {
         Query query = queryParser.parse("*" + searchString +"*");
         ScoreDoc[] hits = searcher.search(query, 1000).scoreDocs;
         printPath(searcher, hits, bw);
-        ireader.close();
+        iReader.close();
     }
 
     // Written Identified files

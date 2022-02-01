@@ -1,37 +1,38 @@
-package rb.com.care.purge.util;
+package rb.com.care.purge.serviceImpl;
 
-import com.google.common.collect.Lists;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.springframework.context.annotation.Configuration;
+import rb.com.care.purge.service.IndexService;
+import rb.com.care.purge.service.SequentialIndexService;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class IndexTypes {
+@Configuration
+public class SequentialIndexServiceImpl extends SequentialIndexService {
 
     public static AtomicInteger threadsInWritingBlock = new AtomicInteger();
     public static AtomicInteger pendingCommits = new AtomicInteger();
     public static int PENDING_COMMIT_THRESHOLD = 1000;
 
     // Sequential Approach
-    public void generateIndexesSequential(IndexWriter iw, File dataDirectory) throws IOException, ParseException {
+    @Override
+    public String startSequentialIndexing(IndexWriter iw, File dataDirectory) throws IOException, ParseException {
         File[] files = dataDirectory.listFiles();
         for (File f : files) {
             if (f.isDirectory()) {
-                generateIndexesSequential(iw, f);
+                startSequentialIndexing(iw, f);
             } else {
                 indexFileWithIndexWriter(iw, f);
             }
         }
+        return "Success";
     }
 
     private static void indexFileWithIndexWriter(IndexWriter iw, File f) throws IOException, ParseException {
@@ -52,22 +53,5 @@ public abstract class IndexTypes {
             pendingCommits.set(0);
             iw.commit();
         }
-    }
-
-    //Thread approach
-    public void generateIndexesConcurrent(IndexWriter iw, File dataDirectory) throws IOException, ParseException {
-        File[] files = dataDirectory.listFiles();
-        assert files != null;
-        List<File> filesList = Arrays.asList(files);
-        int chunkSize = (int) Math.ceil((double) files.length / 10);
-        List<List<File>> checkedData = Lists.partition(filesList, chunkSize);
-
-        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
-        for (int i = 0; i < checkedData.size(); i++) {
-            executor.submit(new IndexingExecutor(checkedData.get(i), i));
-        }
-        executor.shutdown();
-        while (!executor.isTerminated()) {}
-
     }
 }

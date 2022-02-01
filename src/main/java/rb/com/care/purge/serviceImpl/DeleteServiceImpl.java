@@ -1,31 +1,35 @@
 package rb.com.care.purge.serviceImpl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import rb.com.care.purge.service.DeleteService;
+import rb.com.care.purge.util.ClassUsingProperty;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
-import java.time.Duration;
-import java.time.Instant;
 
 @Service
+@Configuration
 public class DeleteServiceImpl implements DeleteService {
+
+    @Autowired
+    ClassUsingProperty properties;
 
     @Override
     public String deleteFiles() {
-
         findIndexAndDeleteFiles();
         return null;
     }
 
-    private static void findIndexAndDeleteFiles() {
+    private void findIndexAndDeleteFiles() {
         int filesDeleted = 0;
         int filesNotDeleted = 0;
         try {
-            File searchedFile = new File("target\\classes\\Search\\SearchFiles.txt");
-            File logFile = new File("target\\classes\\Input\\List.txt");
+            File searchedFile = new File(properties.getSearchList());
+            File logFile = new File(properties.getFileList());
             BufferedReader br = new BufferedReader(new FileReader(searchedFile));
             BufferedWriter bw = new BufferedWriter(new FileWriter(logFile));
             String fileName;

@@ -8,9 +8,10 @@ import java.io.IOException;
 
 public interface IndexService {
 
-    public String createIndex() throws CorruptIndexException, LockObtainFailedException, IOException, ParseException;
+    //Sequential
+    public String generateSequentialIndex() throws CorruptIndexException, LockObtainFailedException, IOException, ParseException;
 
     //Thread Approach
-    public String createIndexes() throws CorruptIndexException, LockObtainFailedException, IOException, ParseException;
+    public String generateParallelIndex() throws CorruptIndexException, LockObtainFailedException, IOException, ParseException;
 
 }

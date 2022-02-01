@@ -1,6 +1,7 @@
 package rb.com.care.purge.controller;
 
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -44,16 +45,16 @@ class IndexControllerTest {
 
     @Test
     void startIndex() throws Exception {
-        Mockito.when(indexService.createIndex()).thenReturn("Success");
+        Mockito.when(indexService.generateSequentialIndex()).thenReturn("Success");
         mockMvc.perform(MockMvcRequestBuilders.get("/rb/startIndex"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
     void startIndexExceptionCase() throws Exception {
-        //Mockito.when(indexService.startIndex()).thenReturn("Success");
-        mockMvc.perform(MockMvcRequestBuilders.get("/rb/startIndex"))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+        Mockito.when(indexService.generateSequentialIndex()).thenReturn("Success");
+        mockMvc.perform(MockMvcRequestBuilders.post("/rb/startIndex1"))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
     }
 
 
@@ -62,6 +63,13 @@ class IndexControllerTest {
         Mockito.when(searchService.searchFies()).thenReturn("Success");
         mockMvc.perform(MockMvcRequestBuilders.get("/rb/searchIndex"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    void searchIndexExceptionCase() throws Exception {
+        Mockito.when(searchService.searchFies()).thenReturn("Success");
+        mockMvc.perform(MockMvcRequestBuilders.post("/rb/searchIndex1"))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
     }
 
     @Test
