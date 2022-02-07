@@ -2,13 +2,19 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { IndexComponent } from './index/index.component';
+import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ConfigComponent } from './config/config.component';
 
 const routes: Routes = [];
 
 const appRoutes: Routes = [
-  { path: '', component: IndexComponent },
+  { path: '', component: HomeComponent },
+  { path: 'index', component: IndexComponent },
   { path: 'search', component: SearchComponent },
+  { path: 'profile', component: ProfileComponent },
+  { path: 'config', component: ConfigComponent },
   {
     path: 'admin',
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),

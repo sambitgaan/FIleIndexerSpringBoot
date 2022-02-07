@@ -24,10 +24,17 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
+              "src/ajax-loader.gif",
+              "src/logo.png",
+              "src/1.png",
+              "src/2.png",
+              "src/4.png",
+              "src/3.png",
               "src/assets"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/ngx-spinner/animations/ball-scale-multiple.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -92,6 +99,12 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
+              "src/ajax-loader.gif",
+              "src/logo.png",
+              "src/1.png",
+              "src/2.png",
+              "src/4.png",
+              "src/3.png",
               "src/assets"
             ],
             "styles": [
