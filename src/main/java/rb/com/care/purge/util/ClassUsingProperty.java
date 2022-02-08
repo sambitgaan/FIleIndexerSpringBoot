@@ -18,6 +18,9 @@ public class ClassUsingProperty {
     @Value( "${file.data.list}" )
     private String fileList;
 
+    @Value( "${file.data.log}" )
+    private String logFile;
+
     @Value( "${file.data.search}" )
     private String searchList;
 
@@ -34,6 +37,10 @@ public class ClassUsingProperty {
 
     public String getSearchList() {
         return searchList;
+    }
+
+    public String getLogFile() {
+        return logFile;
     }
 
     public String getMergedSearch() {

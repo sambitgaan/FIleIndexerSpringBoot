@@ -44,6 +44,8 @@ public class IndexingExecutor implements Runnable{
             for (File f : files) {
                 generateIndexes(iw, f);
             }
+            iw.commit();
+            iw.close();
             System.out.println(count);
         }
         catch (Exception e) {
