@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ConfigComponent } from './config/config.component';
+import { DeleteComponent } from './delete/delete.component';
 
 const routes: Routes = [];
 
@@ -13,6 +14,7 @@ const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'index', component: IndexComponent },
   { path: 'search', component: SearchComponent },
+  { path: 'remove', component: DeleteComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'config', component: ConfigComponent },
   {

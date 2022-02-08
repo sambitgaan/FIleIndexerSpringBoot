@@ -6,26 +6,25 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { ToastService } from '../toast-service';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  selector: 'app-delete',
+  templateUrl: './delete.component.html',
+  styleUrls: ['./delete.component.css']
 })
-export class SearchComponent implements OnInit {
+export class DeleteComponent implements OnInit {
 
-  searchingEnabled = true;
+  deleteBtnEnabled = true;
   constructor(private spinner: NgxSpinnerService, private httpgeneralService: HttpgeneralService, public toastService: ToastService) { }
 
   ngOnInit(): void {
   }
 
-  searchIndex() {
+  deleteFiles() {
     this.spinner.show();
-    this.httpgeneralService.searchFile()
+    this.httpgeneralService.deleteSearchedFiles()
       .subscribe(response => {
         this.spinner.hide();
-        this.searchingEnabled = false;
-        this.toastService.show('Search completed Successfully         ', { classname: 'bg-success text-light', delay: 10000 });
+        this.deleteBtnEnabled = false;
+        this.toastService.show('Files Removed Successfully         ', { classname: 'bg-success text-light', delay: 10000 });
       });  
   }
-
 }

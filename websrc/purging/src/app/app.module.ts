@@ -16,6 +16,9 @@ import { Alarm, App, Bookmark, Person, Twitter } from 'ng-bootstrap-icons/icons'
 import { NgxSpinnerModule } from "ngx-spinner";
 
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { DeleteComponent } from './delete/delete.component';
+import { ToastsContainer } from './toasts-container.component';
+
 
 const icons = {
   Alarm,
@@ -33,7 +36,9 @@ const icons = {
     SearchComponent,
     HomeComponent,
     ProfileComponent,
-    ConfigComponent
+    ConfigComponent,
+    DeleteComponent,
+    ToastsContainer
   ],
   imports: [
     BrowserModule,

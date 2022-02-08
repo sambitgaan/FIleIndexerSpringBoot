@@ -1,0 +1,28 @@
+<div><br />
+    <nav aria-label="breadcrumb" class="margin:1px;">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Delete</li>
+        </ol>
+    </nav>
+</div>
+<h2 style="margin: 10px;">File Deletion</h2>
+<div class="content" role="main">
+    <div class="row">
+        <div class="col-7">
+            File deletion is the removal of a file from a computer's file system. 
+            All operating systems include commands for deleting files (rm on Unix, 
+            era in CP/M and DR-DOS, del/erase in MS-DOS/PC DOS, DR-DOS, Microsoft Windows etc.). 
+            File managers also provide a convenient way of deleting files.
+
+            <br />
+            <br />
+        </div>
+        <div class="col-1"></div>
+        <div class="col-3" style="margin:20px;">
+            <button type="button" [disabled]="!deleteBtnEnabled" class="btn btn-primary btn-circle btn-xl"
+                (click)="deleteFiles()">Delete</button>
+        </div>
+        <div class="col-1"></div>
+    </div><br />
+</div>
