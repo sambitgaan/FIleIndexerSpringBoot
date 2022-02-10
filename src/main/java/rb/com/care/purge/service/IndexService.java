@@ -14,4 +14,8 @@ public interface IndexService {
     //Thread Approach
     public String generateParallelIndex() throws CorruptIndexException, LockObtainFailedException, IOException, ParseException;
 
+    public String mergeIndexesInSingleDirectory() throws CorruptIndexException, IOException, ParseException;
+
+    //public String generateFileParallelIndex() throws CorruptIndexException, LockObtainFailedException, IOException, ParseException;
+
 }

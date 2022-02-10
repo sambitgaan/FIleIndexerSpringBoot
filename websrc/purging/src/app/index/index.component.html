@@ -8,22 +8,25 @@
 </div>
 <h2 style="margin: 10px;">File Indexing</h2>
 <div class="content" role="main">
+    <div class="row">
+        <div class="col-7">
+            Lucene indexes terms, which means that Lucene search searches over terms.
+            A term combines a field name with a token. The terms created from the non-text fields
+            in the document are pairs consisting of the field name and the field value
 
-<div class="row">
-    <div class="col-7">
-        Lucene indexes terms, which means that Lucene search searches over terms. 
-        A term combines a field name with a token. The terms created from the non-text fields 
-        in the document are pairs consisting of the field name and the field value
-
-        <br/>
-        <br/>
-        <b>Note:</b> After Indexing is done. You can go for searching... 
-        <a routerLink="/search" routerLinkActive="active">search</a>
-    </div>
-    <div class="col-1"></div>
-    <div class="col-3" style="margin:20px;">
-        <button type="button" class="btn btn-primary btn-circle btn-xl">Generate Indexes</button>
-    </div>
-    <div class="col-1"></div>
-</div>
+            <br />
+            <br />
+            <b>Note:</b> After Indexing is done. You can go for searching...
+            <a routerLink="/search" routerLinkActive="active">search</a>
+        </div>
+        <div class="col-4" style="margin:20px;">
+            <button type="button" [disabled]="!generateIndexEnable" class="btn btn-primary btn-circle btn-xl"
+                (click)="startIndex()">Generate
+                Indexes</button><span>&nbsp; --> &nbsp;</span>
+                
+                <button type="button" [disabled]="singleFolderStatus" class="btn btn-primary btn-circle btn-xl"
+                (click)="mergeInexesInSingleDir()">Merge Generated Indexes</button>
+        </div>
+        <div class="col-1"></div>
+    </div><br />
 </div>

@@ -1,0 +1,3 @@
+D:\RB\Latest\New\FIleIndexerSpringBoot\Test\sample1.txt : deleted
+Total files deleted: 1
+Total files not deleted: 0
