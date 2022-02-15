@@ -24,7 +24,7 @@ export class DeleteComponent implements OnInit {
       .subscribe(response => {
         this.spinner.hide();
         this.deleteBtnEnabled = false;
-        this.toastService.show('Files Removed Successfully         ', { classname: 'bg-success text-light', delay: 10000 });
+        this.toastService.show('Files Removed Successfully         ', { classname: 'bg-success text-light', delay: 15000 });
       });  
   }
 }

@@ -10,6 +10,7 @@ import { HttpgeneralService } from './httpgeneral.service';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ConfigComponent } from './config/config.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { BootstrapIconsModule } from 'ng-bootstrap-icons';
 import { Alarm, App, Bookmark, Person, Twitter } from 'ng-bootstrap-icons/icons';
@@ -45,6 +46,8 @@ const icons = {
     HttpClientModule,
     AppRoutingModule,
     NgbModule,
+    FormsModule,
+    ReactiveFormsModule,
     BootstrapIconsModule.pick(icons),
     BrowserAnimationsModule,
     NgxSpinnerModule
