@@ -25,11 +25,13 @@ public class SequentialIndexServiceImpl extends SequentialIndexService {
     @Override
     public String startSequentialIndexing(IndexWriter iw, File dataDirectory) throws IOException, ParseException {
         File[] files = dataDirectory.listFiles();
-        for (File f : files) {
-            if (f.isDirectory()) {
-                startSequentialIndexing(iw, f);
-            } else {
-                indexFileWithIndexWriter(iw, f);
+        if (files != null && files.length > 0) {
+            for (File f : files) {
+                if (f.isDirectory()) {
+                    startSequentialIndexing(iw, f);
+                } else {
+                    indexFileWithIndexWriter(iw, f);
+                }
             }
         }
         return "Success";
