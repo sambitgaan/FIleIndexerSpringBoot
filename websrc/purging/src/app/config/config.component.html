@@ -8,46 +8,123 @@
 </div>
 <div class="mr-1 ml-1 container-fluid">
     <h2 style="margin: 10px;">Property Config</h2><br /><br />
-    <div class="row">
-        <div class="col-lg-2 text-right"><b>Directory Path</b></div>
-        <div class="custom-file col-lg-3">
-            <input type="file" class="custom-file-input" id="customFile">
-            <label class="custom-file-label" for="customFile">Choose file</label>
-        </div>
+    <form (ngSubmit)="submit(formName)" [formGroup]="formName">
+        <div class="row">
+            <!-- <div class="col-lg-2 text-right"><b>Directory Path</b></div> -->
+            <div class="custom-file col-lg-5 ml-5 mb-3">
+                <!-- <input type="file" class="custom-file-input" id="customFile" webkitdirectory directory (change)="getDirPathdetials($event)"/>
+            <label class="custom-file-label" for="customFile">
+                <span *ngIf="dirPath != ''">{{dirPath}}</span>
+                <span *ngIf="dirPath == ''">Choose Folder</span>
+            </label> -->
+                <div class="form-group">
+                    <label for="exampleInputEmail1"><b>Directory Path</b></label>
+                    <input type="text" formControlName="dirInput" class="form-control" id="dirInput"
+                        placeholder="Enter Path" />
+                    <small class="form-text text-danger"
+                        *ngIf="formName.get('dirInput').touched && formName.get('dirInput').hasError('required')">This
+                        field is required!</small>
+                    <small class="form-text text-danger"
+                        *ngIf="formName.get('dirInput').touched && formName.get('dirInput').hasError('invalidNumber')">
+                        Numbers accepted only!
+                    </small>
+                </div>
+            </div>
+            <!-- <div class="col-lg-2 text-right"><b>Deletion Log File</b></div> -->
+            <div class="custom-file col-lg-5 ml-5 mb-3">
+                <div class="form-group">
+                    <label for="exampleInputEmail1"><b>Deletion Log File</b></label>
+                    <input type="text" class="form-control" formControlName="delLogFileInput" id="delLogFilePath"
+                        placeholder="Enter Path" />
+                    <small class="form-text text-danger"
+                        *ngIf="formName.get('delLogFileInput').touched && formName.get('delLogFileInput').hasError('required')">This
+                        field is required!</small>
+                    <small class="form-text text-danger"
+                        *ngIf="formName.get('delLogFileInput').touched && formName.get('delLogFileInput').hasError('invalidNumber')">
+                        Numbers accepted only!
+                    </small>
+                </div>
+                <!-- <input type="file" class="custom-file-input" id="customFile" accept="txt\*" />
+            <label class="custom-file-label" for="customFile">
+                <span *ngIf="delLogFilePath != ''">{{delLogFilePath}}</span>
+                <span *ngIf="delLogFilePath == ''">Choose file</span>
+            </label> -->
+            </div>
+        </div><br /><br />
+        <div class="row">
 
-        <div class="col-lg-2 text-right"><b>Index Dir Path</b></div>
-        <div class="custom-file col-lg-3">
-            <input type="file" class="custom-file-input" id="customFile">
-            <label class="custom-file-label" for="customFile">Choose file</label>
-        </div>
-    </div><br /><br />
-    <div class="row">
-        <div class="col-lg-2 text-right"><b>Search Dir Path</b></div>
-        <div class="custom-file col-lg-3">
-            <input type="file" class="custom-file-input" id="customFile">
-            <label class="custom-file-label" for="customFile">Choose file</label>
-        </div>
+            <!-- <div class="col-lg-2 text-right"><b>Index Dir Path</b></div> -->
+            <div class="custom-file col-lg-5 ml-5 mb-3">
+                <div class="form-group">
+                    <label for="exampleInputEmail1"><b>Index Dir Path</b></label>
+                    <input type="text" class="form-control" formControlName="subDirInput" id="subDirInput"
+                        placeholder="Enter Path">
+                    <small class="form-text text-danger"
+                        *ngIf="!subDirError && formName.get('subDirInput').touched && formName.get('subDirInput').hasError('required')">This
+                        field is required!</small>
+                    <small class="form-text text-danger" *ngIf="subDirError">
+                        Index directory should not be a sub directoty of main Directory!
+                    </small>
+                </div>
+                <!-- <input type="file" class="custom-file-input" id="customFile" webkitdirectory mozdirectory />
+            <label class="custom-file-label" for="customFile">
+                <span *ngIf="indexDirPath != ''"></span>
+                <span *ngIf="indexDirPath == ''">Choose Folder</span>
+            </label> -->
+            </div>
 
-        <div class="col-lg-2 text-right"><b>Delete File Path</b></div>
+            <!-- <div class="col-lg-2 text-right"><b>Delete File Path</b></div>
         <div class="custom-file col-lg-3">
             <input type="file" class="custom-file-input" id="customFile">
             <label class="custom-file-label" for="customFile">Choose file</label>
+        </div> -->
+            <!-- <div class="col-lg-2 text-right"><b>File List</b></div> -->
+            <div class="custom-file col-lg-5 ml-5">
+                <div class="form-group">
+                    <label for="exampleInputEmail1"><b>File List</b></label>
+                    <input type="text" class="form-control" id="fileListPath" formControlName="fileListInput"
+                        aria-describedby="emailHelp" placeholder="Enter Path" />
+                    <small class="form-text text-muted"
+                        *ngIf="formName.get('fileListInput').touched && formName.get('fileListInput').hasError('required')">This
+                        field is required!</small>
+                    <small class="form-text text-danger"
+                        *ngIf="formName.get('fileListInput').touched && formName.get('fileListInput').hasError('invalidNumber')">
+                        Numbers accepted only!
+                    </small>
+                </div>
+                <!-- <input type="file" class="custom-file-input" id="customFile" accept="txt\*" />
+            <label class="custom-file-label" for="customFile">
+                <span *ngIf="listFilePath != ''"></span>
+                <span *ngIf="listFilePath == ''">Choose file</span>
+            </label> -->
+            </div>
+        </div><br /><br />
+        <div class="row">
+            <!-- <div class="col-lg-2 text-right"><b>Merged Dir Path</b></div> -->
+            <div class="custom-file col-lg-5 ml-5 mb-3">
+                <div class="form-group">
+                    <label for="exampleInputEmail1"><b>Merged Dir Path</b></label>
+                    <input type="text" class="form-control" id="mergeDirPath" name="mergeDirPath"
+                        formControlName="mergedDirInput" placeholder="Enter Path" required>
+                    <small class="form-text text-danger"
+                        *ngIf="formName.get('mergedDirInput').touched && formName.get('mergedDirInput').hasError('required')">This
+                        field is required!</small>
+                </div>
+                <!-- <input type="file" class="custom-file-input" id="customFile" webkitdirectory mozdirectory />
+            <label class="custom-file-label" for="customFile">
+                <span *ngIf="mergedDirPath != ''"></span>
+                <span *ngIf="mergedDirPath == ''">Choose Folder</span>
+            </label> -->
+            </div>
+            <div class="col-lg-5 ml-5"></div>
+        </div><br /><br />
+        <div class="row pr-5">
+            <div class="col-lg-8">&nbsp;</div>
+            <div class="col-lg-4 text-right pr-5" style="float: right;">
+                <button type="submit" class="btn btn-primary" [disabled]="formName.invalid">
+                    Submit
+                </button>
+            </div>
         </div>
-    </div><br /><br />
-    <div class="row">
-        <div class="col-lg-2 text-right"><b>Merged Dir Path</b></div>
-        <div class="custom-file col-lg-3">
-            <input type="file" class="custom-file-input" id="customFile">
-            <label class="custom-file-label" for="customFile">Choose file</label>
-        </div>
-
-        <div class="col-lg-5 text-right"></div>
-    </div><br/><br/>
-    <div class="row">
-        <div class="col-lg-6"></div>
-        <div class="col-lg-4 text-right mr-5">
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-        <div class="col-lg-2"></div>
-    </div>
+    </form>
 </div>
