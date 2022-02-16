@@ -32,8 +32,8 @@ export class IndexComponent implements OnInit {
         localStorage.setItem("IndexStatus", "disable");
         this.generateIndexEnable = false;
         this.singleFolderStatus = false;
-        this.toastService.show('Index Generated Successfully         ', { classname: 'bg-success text-light', delay: 10000 });
-        this.toastService.show('Please Merge Indexes     ', { classname: 'bg-warning text-light', delay: 5000 });
+        this.toastService.show('Index Generated Successfully         ', { classname: 'bg-success text-light', delay: 15000 });
+        this.toastService.show('Please Merge Indexes     ', { classname: 'bg-warning text-light', delay: 10000 });
       });  
   }
 
@@ -43,7 +43,7 @@ export class IndexComponent implements OnInit {
     this.httpgeneralService.mergeIndexes()
       .subscribe(response => {
         this.spinner.hide();
-        this.toastService.show('Merged Successfully           ', { classname: 'bg-success text-light', delay: 10000 });
+        this.toastService.show('Merged Successfully           ', { classname: 'bg-success text-light', delay: 15000 });
       });
   }
 
