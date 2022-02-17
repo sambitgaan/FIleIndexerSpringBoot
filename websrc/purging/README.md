@@ -94,3 +94,23 @@ ng add @angular/localize
 # Common 
 
 ng add @angular/common
+
+
+
+
+
+
+
+# TO run exisitng Project:
+Step1: 
+Go to Project folder in cmd prompt or open terminal in Visual studio
+
+step2: 
+Run 'npm install'
+
+Step3: 
+Run 'ng serve'
+
+
+
+
