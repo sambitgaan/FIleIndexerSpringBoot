@@ -17,7 +17,7 @@
             <br />
             <br />
             <b>Note:</b> After Indexing is done. You can go for searching...
-            <a routerLink="/search" routerLinkActive="active">search</a>
+            <a [routerLink]="['/home/search']" routerLinkActive="active">search</a>
         </div>
         <div class="col-4" style="margin:20px;">
             <button type="button" [disabled]="!generateIndexEnable" class="btn btn-primary btn-circle btn-xl"

@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { CustomValidator } from '../shared/custom.validator';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { HttpgeneralService } from '../httpgeneral.service';
 
+import { Config } from '../models/config';
 
 @Component({
   selector: 'app-config',
@@ -11,8 +15,16 @@ import { CustomValidator } from '../shared/custom.validator';
 export class ConfigComponent implements OnInit {
 
   formName: any = FormGroup;
+  config: Config | undefined;
+  dirValue: String | undefined;
 
-  constructor(private fb: FormBuilder) { }
+
+  responseData: Object | undefined;
+  data: Object | undefined;
+  configObj: Object | undefined;
+
+  constructor(private fb: FormBuilder,
+    private httpService: HttpgeneralService) { }
 
   dirPath = ""; indexDirPath = ""; mergedDirPath = ""; listFilePath = ""; delLogFilePath = "";
   subDirVal : any = ""; subDirError: Boolean = false;
@@ -25,6 +37,17 @@ export class ConfigComponent implements OnInit {
       mergedDirInput: ['', [Validators.required]],
       subDirInput: ['', [Validators.required]]
     });
+
+    this.responseData = this.httpService.getConfigDetails().subscribe(response => this.config = { 
+      console.log(this.config);
+    });
+  //   this.data = let groups = data.map(item=>{
+  //     return new Group(item)
+  //  });
+  //  this.httpService.getConfigDetails() : Observable<Hero[]> {
+  //   const heroes = of(HEROES);
+  //   return heroes;
+  // }
   }
 
   getDirPathdetials(event: any) {
@@ -46,7 +69,7 @@ export class ConfigComponent implements OnInit {
   submit(frmGrp: any) {
     this.subDirVal = frmGrp.value.subDirInput;
     console.log(frmGrp.value.dirInput + "   " + this.subDirVal);
-    if(frmGrp.value.dirInput &&  String(this.subDirVal).startsWith(frmGrp.value.dirInput)){
+    if((frmGrp.value.dirInput &&  String(this.subDirVal).startsWith(frmGrp.value.dirInput) || frmGrp.value.dirInput === String(this.subDirVal)) ){
       this.subDirError = true;
     }
     console.log(frmGrp.value.numberInput);

@@ -1,0 +1,107 @@
+<div class="row"
+    style="padding-bottom: 5%;padding-top: 3%;background-image: url('login_bg.jpg');">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 col-md-offset-3 pl-5 pr-5 pt-5 pb-5"
+        style="border: 1px solid rgb(212, 94, 94);background-color: white;">
+        <!-- <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" required />
+            <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+            <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+        </div>
+        <div class="form-group">
+            <button [disabled]="loading" class="btn btn-primary">Register</button>
+            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            <a [routerLink]="['/login']" class="btn btn-link">Cancel</a>
+        </div>
+    </form> -->
+        <!-- Default form register -->
+        <form class="text-center border border-light p-1" name="form" (ngSubmit)="f.form.valid && register()"
+            #f="ngForm" novalidate>
+            <p class="h4 mb-4">Sign up</p>
+            <div class="form-row">
+                <div class="col form-group" [ngClass]="{ 'has-error': f.submitted && !firstName.valid }">
+                    <!-- First name -->
+                    <input type="text" class="form-control" name="firstName" [(ngModel)]="model.firstName"
+                        #firstName="ngModel" required placeholder="First name" />
+                    <div style="text-align: left;">
+                        <span *ngIf="f.submitted && !firstName.valid" class="help-block">First Name is required</span>
+                    </div>
+                </div>
+                <div class="col form-group" [ngClass]="{ 'has-error': f.submitted && !lastName.valid }">
+                    <!-- Last name -->
+                    <input type="text" class="form-control" name="lastName" [(ngModel)]="model.lastName"
+                        #lastName="ngModel" required placeholder="Last name" />
+                    <div style="text-align: left;">
+                        <span *ngIf="f.submitted && !lastName.valid" class="help-block">Last Name is required</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+                <!-- E-mail -->
+                <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel"
+                    required placeholder="User Name" />
+                <div style="text-align: left;">
+                    <span *ngIf="f.submitted && !username.valid" class="help-block">Username is required</span>
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+                <input type="password" class="form-control" name="password" [(ngModel)]="model.password"
+                    #password="ngModel" required placeholder="Password" />
+                <div style="text-align: left;">
+                    <span *ngIf="f.submitted && !password.valid" class="help-block">Password is required</span>
+                </div>
+            </div>
+            <!-- Phone number -->
+            <!-- <input type="text" id="defaultRegisterPhonePassword" class="form-control" placeholder="Phone number"
+                aria-describedby="defaultRegisterFormPhoneHelpBlock"> -->
+
+            <!-- Newsletter -->
+            <!-- <div class="row mb-2">
+                <div class="mx-auto d-flex justify-content-center">
+                    <mdb-checkbox [default]="true">Subscribe to our newsletter</mdb-checkbox>
+                </div>
+            </div> -->
+
+            <!-- Sign up button -->
+            <div class="form-group">
+                <button [disabled]="loading" class="btn btn-primary" type="submit" style="width:100%">Register</button>
+                <a [routerLink]="['/login']" class="btn btn-link" style="width:100%">Cancel</a>
+            </div>
+
+            <!-- Social register -->
+            <p>or sign up with:</p>
+            <a type="button" class="light-blue-text mx-2">
+                <bi name="Facebook" style="width:25px; height:25px;"></bi>
+            </a>
+            <a type="button" class="light-blue-text mx-2">
+                <bi name="Twitter" style="width:25px; height:25px;"></bi>
+            </a>
+            <a type="button" class="light-blue-text mx-2">
+                <bi name="Linkedin" style="width:25px; height:25px;"></bi>
+            </a>
+            <a type="button" class="light-blue-text mx-2">
+                <bi name="Github" style="width:25px; height:25px;"></bi>
+            </a>
+
+            <hr>
+
+            <!-- Terms of service -->
+            <p>By clicking
+                <em>Sign up</em> you agree to our
+                <a href="" target="_blank">terms of service</a>
+            </p>
+
+        </form>
+        <!-- Default form register -->
+    </div>
+    <div class="col-md-4"></div>
+</div>

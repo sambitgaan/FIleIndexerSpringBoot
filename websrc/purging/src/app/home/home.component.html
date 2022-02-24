@@ -1,37 +1,251 @@
-<div class="mr-0 ml-0 hContainer">
-    <div class="row">
-        <div class="col-8">
-            <div class="row mr-2 ml-5 mt-5">
-                <h3 class="user">Hello,</h3>
-                <br />
+<style>
+    :host {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        font-size: 14px;
+        color: #333;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin: 8px 0;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    .spacer {
+        flex: 1;
+    }
+
+    .toolbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 10%;
+        display: flex;
+        align-items: center;
+        background-color: white;
+        border-bottom: 1px solid pink;
+        color: black;
+        font-weight: 600;
+    }
+
+    .toolbar img {
+        margin: 0 16px;
+    }
+
+    .toolbar #twitter-logo {
+        height: 40px;
+        margin: 0 8px;
+    }
+
+    .toolbar #youtube-logo {
+        height: 40px;
+        margin: 0 16px;
+    }
+
+    .toolbar #twitter-logo:hover,
+    .toolbar #youtube-logo:hover {
+        opacity: 0.8;
+    }
+
+    svg.material-icons {
+        height: 24px;
+        width: auto;
+    }
+
+    svg.material-icons:not(:last-child) {
+        margin-right: 8px;
+    }
+
+    .card svg.material-icons path {
+        fill: #888;
+    }
+
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 16px;
+    }
+
+    .card {
+        all: unset;
+        border-radius: 4px;
+        border: 1px solid #eee;
+        background-color: #fafafa;
+        height: 40px;
+        width: 200px;
+        margin: 0 8px 16px;
+        padding: 16px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.2s ease-in-out;
+        line-height: 24px;
+    }
+
+    svg#rocket-smoke {
+        height: calc(100vh - 95px);
+        position: absolute;
+        top: 10px;
+        right: 180px;
+        z-index: -10;
+    }
+
+    a,
+    a:visited,
+    a:hover {
+        color: #1976d2;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #125699;
+        cursor: pointer;
+    }
+
+    .circle-link {
+        height: 40px;
+        width: 40px;
+        border-radius: 40px;
+        margin: 8px;
+        background-color: white;
+        border: 1px solid #eeeeee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        transition: 1s ease-out;
+    }
+
+    .circle-link:hover {
+        transform: translateY(-0.25rem);
+        box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    footer {
+        margin-top: 8px;
+        display: flex;
+        align-items: center;
+        line-height: 20px;
+    }
+
+    footer a {
+        display: flex;
+        align-items: center;
+    }
+
+    footer {
+        position: fixed;
+        height: 9%;
+        bottom: 0;
+        width: 100%;
+        border-top: 1px solid pink;
+        background-color: #ffffff;
+    }
+</style>
+<ngx-spinner bdColor="#80808070" template="<img src='ajax-loader.gif' />">
+</ngx-spinner>
+<!-- Toolbar -->
+<header style="display:block;" class="mb-2">
+    <div class="toolbar" role="banner">
+        <img width="75" alt="Reckitt Logo" src="logo.png" />
+        <div class="spacer"></div>
+        <a class="nav-link waves-effect waves-light" routerLink="/" style="color:black">
+            <i class="fa fa-user"></i> <span class="clearfix d-none d-sm-inline-block">Home</span>
+        </a>
+        <a *ngIf="loginStatus === 'true'" class="nav-link waves-effect waves-light" [routerLink]="['config']"
+            style="color:black">
+            <i class="fa fa-user"></i> <span class="clearfix d-none d-sm-inline-block">Config</span>
+        </a>
+        <a *ngIf="loginStatus === 'true'" class="nav-link waves-effect waves-light" [routerLink]="['index']"
+            style="color:black">
+            <i class="fa fa-user"></i> <span class="clearfix d-none d-sm-inline-block">Index</span>
+        </a>
+        <a *ngIf="loginStatus === 'true'" class="nav-link waves-effect waves-light" [routerLink]="['search']"
+            style="color:black">
+            <i class="fa fa-user"></i> <span class="clearfix d-none d-sm-inline-block">Search</span>
+        </a>
+        <a *ngIf="loginStatus === 'true'" class="nav-link waves-effect waves-light" [routerLink]="['remove']"
+            style="color:black">
+            <i class="fa fa-user"></i> <span class="clearfix d-none d-sm-inline-block">Delete</span>
+        </a>
+        <a *ngIf="loginStatus  === 'true'" (click)="userLogout()" class="nav-link waves-effect waves-light"
+            style="color:black">
+            <i class="fa fa-user"></i> <span class="clearfix d-none d-sm-inline-block">Logout</span>
+        </a>
+        <a *ngIf="loginStatus === 'true'" aria-label="Angular on twitter" class="mr-3" target="_blank" rel="noopener"
+            href="https://twitter.com/ThisIsReckitt" title="Twitter">
+            <bi name="Twitter" style="width:25px; height:25px;"></bi>
+        </a>
+
+        <a *ngIf="loginStatus  === 'false'" class="nav-link waves-effect waves-light" routerLink="/login"
+            style="color:black">
+            <i class="fa fa-user"></i> <span class="clearfix d-none d-sm-inline-block">Login</span>
+        </a>
+        <!-- <a class="nav-link waves-effect waves-light" routerLink="/profile" style="color:black">
+      <bi name="person" style="width:25px; height:25px;"></bi>
+    </a> -->
+    </div>
+</header>
+<br />
+<!-- <ng-template #dangerTpl>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="24" height="24" viewBox="0 0 24 24">
+        <path
+            d="M10.872 6.831l1.695 3.904 3.654-1.561-1.79 3.426 3.333.954-3.417 1.338 2.231 4.196-4.773-2.582-2.869 2.287.413-3.004-3.792-.726 2.93-1.74-1.885-2.512 3.427.646.843-4.626zm-.786-6.831l-1.665 9.119-6.512-1.228 3.639 4.851-5.548 3.294 7.108 1.361-.834 6.076 5.742-4.577 9.438 5.104-4.288-8.064 6.834-2.677-6.661-1.907 3.25-6.22-6.98 2.982-3.523-8.114z" />
+    </svg>
+    Danger Danger !
+</ng-template> -->
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+<!--- Body -->
+<div style="height: 80%; width: 100%; position: absolute;" class="mt-2">
+    <router-outlet></router-outlet>
+    <br />
+</div>
+
+<!--- Body -->
+<!--- Footer -->
+<footer class="text-center row">
+    <div class="col-6"></div>
+    <div class="col-6">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-2">
+                <a style="color:black" target="_blank" href="https://web.yammer.com/main/feed">Yammer</a>
             </div>
-            <div class="row mr-1 mt-1" style="color: black;margin-left: 17%">
-                <h3 class="welcome">Welcome to</h3>
+            <div class="col-2 pl-0">
+                <a style="color:black" target="_blank" href="https://www.reckitt.com/">Reckitt.com</a>
             </div>
-            <div class="row mr-1 mt-1" style="margin-left: 30%;">
-                <h3 class="title">Indexing Services</h3>
+            <div class="col-1 pl-0">
+                <a style="color:black" target="_blank" href="https://rb.okta.com/">
+                    Okta
+                </a>
             </div>
-        </div>
-        <div class="col-4 pt-5 pr-5">
-            <ngb-carousel>
-                <ng-template ngbSlide>
-                    <img src="1.png" class="d-block w-100" alt="Rlide">
-                </ng-template>
-                <ng-template ngbSlide>
-                    <img src="2.png" class="d-block w-100" alt="Re">
-                </ng-template>
-                <ng-template ngbSlide>
-                    <img src="3.png" class="d-block w-100" alt="Re">
-                </ng-template>
-                <ng-template ngbSlide>
-                    <img src="4.png" class="d-block w-100" alt="">
-                </ng-template>
-            </ngb-carousel>
+            <div class="col-1">
+                <a style="color:black" target="_blank" href="https://rbcom.sharepoint.com/sites/Rubi">
+                    Rubi
+                </a>
+            </div>
+            <div class="col-3">
+                <a style="color:black" target="_blank" href="https://www.concursolutions.com/nui/signin">
+                    Concur Expenses
+                </a>
+            </div>
         </div>
     </div>
-</div>
-<br />
-
+</footer>
 <!-- <div style="height: 200px;">
     <svg id="clouds" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2611.084 485.677">
         <title>Gray Clouds Background</title>

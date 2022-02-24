@@ -20,7 +20,7 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1"><b>Directory Path</b></label>
                     <input type="text" formControlName="dirInput" class="form-control" id="dirInput"
-                        placeholder="Enter Path" />
+                        placeholder="Enter Path" [(ngModel)]="ResponseData" />
                     <small class="form-text text-danger"
                         *ngIf="formName.get('dirInput').touched && formName.get('dirInput').hasError('required')">This
                         field is required!</small>
@@ -84,7 +84,7 @@
                     <label for="exampleInputEmail1"><b>File List</b></label>
                     <input type="text" class="form-control" id="fileListPath" formControlName="fileListInput"
                         aria-describedby="emailHelp" placeholder="Enter Path" />
-                    <small class="form-text text-muted"
+                    <small class="form-text text-danger"
                         *ngIf="formName.get('fileListInput').touched && formName.get('fileListInput').hasError('required')">This
                         field is required!</small>
                     <small class="form-text text-danger"
