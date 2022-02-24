@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
   }
 
   userLogout() {
-    localStorage.setItem("loginStatus", "false");
+    localStorage.clear();
     this.router.navigate(["/login"]);
   }
 

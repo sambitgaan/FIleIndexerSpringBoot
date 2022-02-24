@@ -5,12 +5,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '../models/environment';
-import { User } from '../models/user';
+import { UserData } from '../models/user';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
-    private userSubject: BehaviorSubject<User> | Object | undefined ;
-    public user: Observable<User> | undefined;
+    private userSubject: BehaviorSubject<UserData> | Object | undefined ;
+    public user: Observable<UserData> | undefined;
 
     constructor(
         private router: Router,
@@ -41,16 +41,16 @@ export class AccountService {
         this.router.navigate(['/account/login']);
     }
 
-    register(user: User) {
+    register(user: UserData) {
         return this.http.post(`${environment.apiUrl}/users/register`, user);
     }
 
     getAll() {
-        return this.http.get<User[]>(`${environment.apiUrl}/users`);
+        return this.http.get<UserData[]>(`${environment.apiUrl}/users`);
     }
 
     getById(id: string) {
-        return this.http.get<User>(`${environment.apiUrl}/users/${id}`);
+        return this.http.get<UserData>(`${environment.apiUrl}/users/${id}`);
     }
 
     // update(id, params) {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpRequest, HttpHeaders, HttpResponse, HttpParams} from '@angular/common/http';
 
-import { User } from '../models/user';
+import { UserData } from '../models/user';
 
 import { map } from "rxjs/operators"; 
 
@@ -25,12 +25,12 @@ export class UserService {
         return this.http.get('/api/users/' + id).subscribe(res => res);
     }
 
-    create(user: User) {
+    create(user: UserData) {
         return this.http.post('/api/users', user).subscribe(res => res);
     }
 
-    update(user: User) {
-        return this.http.put('/api/users/' + user.id, user).subscribe(res => res);
+    update(user: UserData) {
+        return this.http.put('/api/users/' + user.userId, user).subscribe(res => res);
     }
 
     delete(id: number) {

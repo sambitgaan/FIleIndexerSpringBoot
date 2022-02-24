@@ -27,11 +27,11 @@ const appRoutes: Routes = [
     component: HomeComponent,
     children: [
       { path: '', component: MainComponent},
-      { path: 'index', component: IndexComponent },
-      { path: 'search', component: SearchComponent },
-      { path: 'remove', component: DeleteComponent },
-      { path: 'profile', component: ProfileComponent },
-      { path: 'config', component: ConfigComponent },
+      { path: 'index', component: IndexComponent, canActivate: [AuthGuard] },
+      { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
+      { path: 'remove', component: DeleteComponent, canActivate: [AuthGuard] },
+      { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+      { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },
     ]
   },
   { path: '**', component: PageNotFoundComponent }

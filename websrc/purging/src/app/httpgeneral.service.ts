@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, Observable, of, tap } from 'rxjs';
 import { Config } from './models/config';
+import { LoginData, LoginResponse, UserData } from './models/user';
 
 interface QueryParams {
   [key: string]: string | number;
@@ -10,8 +11,7 @@ interface QueryParams {
 let httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    'Authorization': '1212sdcsda',
-    'x-header': 'x-value'
+    'Authorization': '1212sdcsda'
   })
 }
 
@@ -42,17 +42,42 @@ export class HttpgeneralService {
     return this.http.get<"">(this.END_POINT + '/rb/deleteFiles');
   }
 
-  login(username: string, password: string) {
-    return this.http.post(this.END_POINT + '/users/login', JSON.stringify({ userName: username, password: password }), httpOptions);
+  login(data : LoginData): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(this.END_POINT + '/users/login', 
+    JSON.stringify(data), httpOptions).pipe(tap((outData: LoginResponse) => console.log(`get user w/ id=${outData.status}`)),
+      catchError(this.handleError<LoginResponse>('addedUser')));
+  }
+
+  saveUser(data : UserData): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(this.END_POINT + '/users/register', JSON.stringify(data), httpOptions).pipe(
+      tap((updateHero: LoginResponse) => console.log(`saved user w/ id=${updateHero}`)),
+      catchError(this.handleError<LoginResponse>('addedUser')));
+  }
+
+  logOut(){
+    localStorage.clear();
   }
 
   getConfigDetails(): Observable<Config> {
-    return this.http.get<Config>(this.END_POINT + '/config/user/1', httpOptions)
-    .pipe(tap(_ => console.log(`fetched hero id=${id}`)),catchError(this.handleError<Config>(`getHero id`)));
+    let userId = localStorage.getItem("loginUserId");
+    return this.http.get<Config>(this.END_POINT + '/config/user/'+userId, httpOptions);
   }
 
-  handleError<T>(arg0: string): (err: any, caught: Observable<Config>) => import("rxjs").ObservableInput<any> {
-    throw new Error('Method not implemented.');
+  saveConfig(data : Config): Observable<Config> {
+    return this.http.post<Config>(this.END_POINT + '/config/save', JSON.stringify(data), httpOptions).pipe(
+      tap((updateHero: Config) => console.log(`saved config w/ id=${updateHero.configId}`)),
+      catchError(this.handleError<Config>('addedConfig')));
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+      // TODO: better job of transforming error for user consumption
+      console.log(`${operation} failed: ${error.message}`);
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
   }
 
   //   private getGroups() : Observable<any> {
