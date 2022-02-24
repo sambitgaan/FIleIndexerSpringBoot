@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface ConfigService {
 
-    Config saveOrUpdate(ConfigRequestDto dto);
+    Config saveOrUpdate(Config dto);
 
     Optional<Config> findByConfigId(long configId);
 

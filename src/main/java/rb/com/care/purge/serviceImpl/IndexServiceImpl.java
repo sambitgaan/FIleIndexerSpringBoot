@@ -45,6 +45,7 @@ public class IndexServiceImpl implements IndexService {
 
     // Concurrent Approach
     public String generateParallelIndex() throws IOException, ParseException {
+
         File dataDirectory = new File(properties.getDirectory());
         String response = parallelIndexService.startParallelIndexing(dataDirectory);
         return response;

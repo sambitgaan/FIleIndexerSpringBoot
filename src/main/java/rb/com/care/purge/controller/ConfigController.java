@@ -33,13 +33,13 @@ public class ConfigController {
     }
 
     @PostMapping("/save")
-    public Config saveConfig(@Valid @RequestBody ConfigRequestDto config) {
+    public Config saveConfig(@Valid @RequestBody Config config) {
         return configService.saveOrUpdate(config);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Config> updateConfig(@PathVariable(value = "id") Long configId,
-                                              @Valid @RequestBody ConfigRequestDto configDetails) throws ResourceNotFoundException {
+                                              @Valid @RequestBody Config configDetails) throws ResourceNotFoundException {
         final Config updateConfig = configService.saveOrUpdate(configDetails);
         return ResponseEntity.ok(updateConfig);
     }

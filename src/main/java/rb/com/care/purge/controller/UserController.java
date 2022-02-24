@@ -11,6 +11,7 @@ import rb.com.care.purge.util.ResourceNotFoundException;
 
 import javax.validation.Valid;
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -62,18 +63,15 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Response registerUser(@Valid @RequestBody Users newUser) {
         Response response = new Response();
-        List<Users> users = usersService.findAll();
-        System.out.println("New user: " + newUser.toString());
-        for (Users user : users) {
-            System.out.println("Registered user: " + newUser.toString());
-            if (user.equals(newUser)) {
-                System.out.println("User Already exists!");
-                response.setMessage("User Already exists!");
-            }
+        Users users = usersService.findByUserName(newUser.getUserName()).orElse(null);
+        if (!Objects.isNull(users)) {
+            System.out.println("User Already exists!");
+            response.setMessage("User Already exists!");
+        } else {
+            usersService.saveOrUpdate(newUser);
+            response.setData(newUser);
         }
-        usersService.saveOrUpdate(newUser);
         response.setStatus(HttpStatus.OK);
-        response.setData(newUser);
         return response;
     }
 
@@ -85,13 +83,14 @@ public class UserController {
         if(!Objects.isNull(userDetails)){
             if(userDetails.getPassword().equals(user.getPassword())){
                 response.setData(userDetails);
+                response.setStatus(HttpStatus.OK);
             } else {
                 response.setMessage("You have entered an invalid username or password");
+                response.setStatus(HttpStatus.OK);
             }
         } else {
             response.setMessage("You have entered an invalid username or password");
         }
-        response.setStatus(HttpStatus.OK);
         return response;
     }
 
