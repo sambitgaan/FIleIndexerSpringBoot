@@ -12,9 +12,6 @@ public class ClassUsingProperty {
     @Value( "${file.data.index}" )
     private String indexDirectory;
 
-    @Value( "${file.data.mergedDir}" )
-    private String mergedDir;
-
     @Value( "${file.data.list}" )
     private String fileList;
 
@@ -24,12 +21,8 @@ public class ClassUsingProperty {
     @Value( "${file.data.search}" )
     private String searchList;
 
-    @Value( "${file.data.mergedSearch}" )
-    private String mergedSearch;
-
-    public String getMergedDir() {
-        return mergedDir;
-    }
+    @Value( "${file.data.indexSearch}" )
+    private String IndexSearchFileName;
 
     public String getFileList() {
         return fileList;
@@ -43,8 +36,8 @@ public class ClassUsingProperty {
         return logFile;
     }
 
-    public String getMergedSearch() {
-        return mergedSearch;
+    public String getIndexSearchFileName() {
+        return IndexSearchFileName;
     }
 
     public String getDirectory() {

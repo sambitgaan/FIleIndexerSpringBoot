@@ -44,7 +44,7 @@ public class SearchServiceImpl implements SearchService {
     }
 
     private BufferedWriter getFileBufferedWriter() throws IOException {
-        File filePath = new File(properties.getMergedSearch());
+        File filePath = new File(properties.getIndexSearchFileName());
         BufferedWriter bw = new BufferedWriter(new FileWriter(filePath));
         return bw;
     }
@@ -62,7 +62,7 @@ public class SearchServiceImpl implements SearchService {
 
     // Search as per provided file data
     private void searchIndex(String searchString, BufferedWriter bw) throws IOException, ParseException {
-        Directory directory = getIndexDirectory(properties.getMergedDir());
+        Directory directory = getIndexDirectory(properties.getIndexDirectory());
         DirectoryReader iReader = DirectoryReader.open(directory);
         IndexSearcher searcher = getSearcher(iReader);
         Analyzer analyzer = new StandardAnalyzer();

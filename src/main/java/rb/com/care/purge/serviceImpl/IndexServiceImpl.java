@@ -46,10 +46,7 @@ public class IndexServiceImpl implements IndexService {
     // Concurrent Approach
     public String generateParallelIndex() throws IOException, ParseException {
         File dataDirectory = new File(properties.getDirectory());
-        IndexWriter iw = getConcurrentIndexWriterConfig(properties.getIndexDirectory());
-        String response = parallelIndexService.startParallelIndexing(iw, dataDirectory);
-        iw.commit();
-        iw.close();
+        String response = parallelIndexService.startParallelIndexing(dataDirectory);
         return response;
     }
 
@@ -104,7 +101,7 @@ public class IndexServiceImpl implements IndexService {
         Directory dir8 = getIndexDirectory("IndexDir8");
         Directory dir9 = getIndexDirectory("IndexDir9");
 
-        IndexWriter writer = getConcurrentIndexWriterConfig(properties.getMergedDir());
+        IndexWriter writer = getConcurrentIndexWriterConfig(properties.getIndexDirectory());
         writer.addIndexes(dir0, dir1, dir2, dir3, dir4, dir5, dir6, dir7, dir8, dir9);
         writer.close();
 

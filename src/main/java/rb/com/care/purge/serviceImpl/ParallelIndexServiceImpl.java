@@ -19,7 +19,7 @@ public class ParallelIndexServiceImpl extends ParallelIndexService {
 
     //Thread approach
     @Override
-    public String startParallelIndexing(IndexWriter iw, File dataDirectory) throws IOException, ParseException {
+    public String startParallelIndexing(File dataDirectory) throws IOException, ParseException {
         File[] files = dataDirectory.listFiles();
         assert files != null;
         List<File> filesList = Arrays.asList(files);

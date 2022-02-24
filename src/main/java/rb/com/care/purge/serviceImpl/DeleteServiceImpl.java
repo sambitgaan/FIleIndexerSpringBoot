@@ -28,7 +28,7 @@ public class DeleteServiceImpl implements DeleteService {
         int filesDeleted = 0;
         int filesNotDeleted = 0;
         try {
-            File searchedFile = new File(properties.getMergedSearch());
+            File searchedFile = new File(properties.getIndexSearchFileName());
             File logFile = new File(properties.getLogFile());
             BufferedReader br = new BufferedReader(new FileReader(searchedFile));
             BufferedWriter bw = new BufferedWriter(new FileWriter(logFile));

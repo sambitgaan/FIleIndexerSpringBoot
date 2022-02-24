@@ -8,6 +8,6 @@ import java.io.IOException;
 
 public abstract class ParallelIndexService {
 
-    public abstract String startParallelIndexing(IndexWriter iw, File dataDirectory) throws IOException, ParseException;
+    public abstract String startParallelIndexing(File dataDirectory) throws IOException, ParseException;
 
 }
