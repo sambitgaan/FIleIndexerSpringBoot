@@ -22,17 +22,20 @@ public class ParallelIndexServiceImpl extends ParallelIndexService {
     public String startParallelIndexing(File dataDirectory) throws IOException, ParseException {
         File[] files = dataDirectory.listFiles();
         assert files != null;
-        List<File> filesList = Arrays.asList(files);
-        int chunkSize = (int) Math.ceil((double) files.length / 10);
-        List<List<File>> checkedData = Lists.partition(filesList, chunkSize);
+        if(files != null){
+            List<File> filesList = Arrays.asList(files);
+            int chunkSize = (int) Math.ceil((double) files.length / 10);
+            List<List<File>> checkedData = Lists.partition(filesList, chunkSize);
 
-        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
-        for (int i = 0; i < checkedData.size(); i++) {
-            executor.submit(new IndexingExecutor(checkedData.get(i), i));
+            ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
+            for (int i = 0; i < checkedData.size(); i++) {
+                executor.submit(new IndexingExecutor(checkedData.get(i), i));
+            }
+            executor.shutdown();
+            while (!executor.isTerminated()) {}
+            return "Success";
+        } else {
+            return "Files Not Found";
         }
-        executor.shutdown();
-        while (!executor.isTerminated()) {}
-
-        return "Success";
     }
 }

@@ -9,12 +9,10 @@ import rb.com.care.purge.model.Users;
 import rb.com.care.purge.service.UsersService;
 import rb.com.care.purge.util.ResourceNotFoundException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("users")
@@ -84,6 +82,7 @@ public class UserController {
             if(userDetails.getPassword().equals(user.getPassword())){
                 response.setData(userDetails);
                 response.setStatus(HttpStatus.OK);
+                //this.SetSession(userDetails, new HttpServletRequest());
             } else {
                 response.setMessage("You have entered an invalid username or password");
                 response.setStatus(HttpStatus.OK);
@@ -92,6 +91,24 @@ public class UserController {
             response.setMessage("You have entered an invalid username or password");
         }
         return response;
+    }
+
+//    public Boolean SetSession(Users user,) {
+//        HttpServletRequest request = new  HttpServletRequest;
+//        @SuppressWarnings("unchecked")
+//        Users data = (Users) request.getSession().getAttribute("UserData");
+//        if (Objects.isNull(data)) {
+//            data = new Users();
+//            request.getSession().setAttribute("UserData", data);
+//        }
+//        request.getSession().setAttribute("UserData", data);
+//        return true;
+//    }
+
+    @PostMapping("/destroy")
+    public String destroySession(HttpServletRequest request) {
+        request.getSession().invalidate();
+        return "redirect:/";
     }
 
 }

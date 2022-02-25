@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import rb.com.care.purge.model.Config;
-import rb.com.care.purge.model.ConfigRequestDto;
 import rb.com.care.purge.repository.ConfigRepository;
 import rb.com.care.purge.repository.UsersRepository;
 import rb.com.care.purge.service.ConfigService;
@@ -33,6 +32,7 @@ public class ConfigServiceImpl implements ConfigService {
         config.setIndexDirPath(configDetails.getIndexDirPath());
         config.setRemovedFilesLogPath(configDetails.getRemovedFilesLogPath());
         config.setFilesLogPath(configDetails.getFilesLogPath());
+        config.setSearchedFilesPathlog(configDetails.getSearchedFilesPathlog());
         config.setUserId(configDetails.getUserId());
         config.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         config.setUpdatedAt(new Timestamp(System.currentTimeMillis()));

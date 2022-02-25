@@ -3,8 +3,10 @@ package rb.com.care.purge.serviceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
+import rb.com.care.purge.model.Config;
 import rb.com.care.purge.model.Users;
 import rb.com.care.purge.repository.UsersRepository;
+import rb.com.care.purge.service.ConfigService;
 import rb.com.care.purge.service.UsersService;
 
 import java.sql.Timestamp;
@@ -19,6 +21,9 @@ public class UsersServiceImpl implements UsersService {
     @Autowired
     private UsersRepository usersRepository;
 
+    @Autowired
+    private ConfigService configService;
+
     @Override
     public List<Users> findAll(){
         List<Users> users = new ArrayList<Users>();
@@ -31,6 +36,18 @@ public class UsersServiceImpl implements UsersService {
         user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         user.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
         usersRepository.save(user);
+
+
+//        Config config = new Config();
+//        config.setUserId(user.getUserId());
+//        config.setDirPath("");
+//        config.setIndexDirPath("");
+//        config.setRemovedFilesLogPath("");
+//        config.setFilesLogPath("");
+//        config.setSearchedFilesPathlog("");
+//        config.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+//        config.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+//        configService.saveOrUpdate(config);
         return user;
     }
 

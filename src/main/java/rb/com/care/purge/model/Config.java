@@ -18,6 +18,8 @@ public class Config {
     private String removedFilesLogPath;
     @Column(name = "files_log_path", nullable = false)
     private String filesLogPath;
+    @Column(name = "searched_files_path_log", nullable = false)
+    private String searchedFilesPathlog;
     @Column(name = "user_id", nullable = false)
     private long userId;
     @Column(name = "created_at", nullable = false)
@@ -28,14 +30,23 @@ public class Config {
     public Config() {}
 
 
-    public Config(String dirPath, String indexDirPath, String removedFilesLogPath, String filesLogPath, long userId, Timestamp createdAt, Timestamp updatedAt) {
+    public Config(String dirPath, String indexDirPath, String removedFilesLogPath, String filesLogPath, String searchedFilesPathlog, long userId, Timestamp createdAt, Timestamp updatedAt) {
         this.dirPath = dirPath;
         this.indexDirPath = indexDirPath;
         this.removedFilesLogPath = removedFilesLogPath;
         this.filesLogPath = filesLogPath;
+        this.searchedFilesPathlog = searchedFilesPathlog;
         this.userId = userId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public String getSearchedFilesPathlog() {
+        return searchedFilesPathlog;
+    }
+
+    public void setSearchedFilesPathlog(String searchedFilesPathlog) {
+        this.searchedFilesPathlog = searchedFilesPathlog;
     }
 
     public long getConfigId() {

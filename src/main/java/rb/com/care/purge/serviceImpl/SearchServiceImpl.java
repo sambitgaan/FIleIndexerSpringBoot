@@ -15,7 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import rb.com.care.purge.model.Config;
+import rb.com.care.purge.service.ConfigService;
 import rb.com.care.purge.service.SearchService;
+import rb.com.care.purge.service.UsersService;
 import rb.com.care.purge.util.ClassUsingProperty;
 
 import java.io.*;
@@ -27,30 +30,31 @@ import java.time.Instant;
 public class SearchServiceImpl implements SearchService {
 
     @Autowired
-    ClassUsingProperty properties;
+    private ConfigService configService;
 
     //Get reading and writing files
     @Override
-    public String searchFies() throws IOException, ParseException{
+    public String searchFies(String userId) throws IOException, ParseException{
         String st;
-        BufferedReader br1 = getFIleBufferedReader();
-        BufferedWriter bw = getFileBufferedWriter();
+        Config config = configService.findConfigByUserId(Long.parseLong(userId));
+        BufferedReader br1 = getFIleBufferedReader(config.getFilesLogPath());
+        BufferedWriter bw = getFileBufferedWriter(config.getSearchedFilesPathlog());
         while ((st = br1.readLine()) != null) {
-            searchIndex(st, bw);
+            searchIndex(st, bw, config.getIndexDirPath());
         }
         br1.close();
         bw.close();
         return "Success";
     }
 
-    private BufferedWriter getFileBufferedWriter() throws IOException {
-        File filePath = new File(properties.getIndexSearchFileName());
+    private BufferedWriter getFileBufferedWriter(String searchPath) throws IOException {
+        File filePath = new File(searchPath);
         BufferedWriter bw = new BufferedWriter(new FileWriter(filePath));
         return bw;
     }
 
-    public BufferedReader getFIleBufferedReader() throws IOException {
-        File file = new File(properties.getFileList());
+    public BufferedReader getFIleBufferedReader(String path) throws IOException {
+        File file = new File(path);
         return new BufferedReader(new FileReader(file));
     }
 
@@ -61,8 +65,8 @@ public class SearchServiceImpl implements SearchService {
     }
 
     // Search as per provided file data
-    private void searchIndex(String searchString, BufferedWriter bw) throws IOException, ParseException {
-        Directory directory = getIndexDirectory(properties.getIndexDirectory());
+    private void searchIndex(String searchString, BufferedWriter bw, String indexPath) throws IOException, ParseException {
+        Directory directory = getIndexDirectory(indexPath);
         DirectoryReader iReader = DirectoryReader.open(directory);
         IndexSearcher searcher = getSearcher(iReader);
         Analyzer analyzer = new StandardAnalyzer();

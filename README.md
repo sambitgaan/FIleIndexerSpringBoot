@@ -38,6 +38,7 @@ user_id int,
 dir_path VARCHAR(400) NOT NULL,
 index_dir_path VARCHAR(400) NOT NULL,
 removed_files_log_path VARCHAR(400) NOT NULL,
+searched_files_path_log VARCHAR(400) NOT NULL,
 files_log_path VARCHAR(400) NOT NULL,
 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 updated_at DATETIME DEFAULT CURRENT_TIMESTAMP

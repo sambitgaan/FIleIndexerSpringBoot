@@ -4,7 +4,11 @@ export class UserData {
     password!: string;
     firstName!: string;
     lastName!: string;
-    token: string | undefined;
+    token!: string;
+}
+
+export class IndexRequest {
+    userId!: string | null;
 }
 
 export class LoginData {

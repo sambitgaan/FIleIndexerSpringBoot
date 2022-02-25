@@ -21,8 +21,9 @@ export class ConfigComponent implements OnInit {
   removeLogPath: String | undefined;
   IndexDirPath: String | undefined;
   InputFileListPath: String | undefined;
-  userId : String | undefined; 
-  configId : String | undefined;
+  searchedFilesPathlog: String | undefined;
+  userId: String | undefined;
+  configId: String | undefined;
 
   responseData: Object | undefined;
   configObj: Object | undefined;
@@ -37,7 +38,8 @@ export class ConfigComponent implements OnInit {
       dirInput: ['', [Validators.required]],
       delLogFileInput: ['', [Validators.required]],
       fileListInput: ['', [Validators.required]],
-      subDirInput: ['', [Validators.required]]
+      subDirInput: ['', [Validators.required]],
+      searchedFilesPathlog: ['', [Validators.required]]
     });
 
     this.spinner.show();
@@ -49,18 +51,22 @@ export class ConfigComponent implements OnInit {
       this.IndexDirPath = response.indexDirPath;
       this.removeLogPath = response.removedFilesLogPath;
       this.InputFileListPath = response.filesLogPath;
+      this.searchedFilesPathlog = response.searchedFilesPathlog;
     });
   }
 
   submit(frmGrp: any) {
-    this.spinner.show();
     this.subDirVal = frmGrp.value.subDirInput;
     console.log(frmGrp.value.dirInput + "   " + this.subDirVal);
     if ((frmGrp.value.dirInput && String(this.subDirVal).startsWith(frmGrp.value.dirInput) || frmGrp.value.dirInput === String(this.subDirVal))) {
       this.subDirError = true;
+    } else {
+      this.subDirError = false;
     }
+
     if (!this.subDirError) {
-      this.httpService.saveConfig({ 'userId': this.userId, "dirPath": this.dirValue, "indexDirPath": this.IndexDirPath, "removedFilesLogPath": this.removeLogPath, "filesLogPath": this.InputFileListPath } as Config).subscribe(response => {
+      this.spinner.show();
+      this.httpService.saveConfig({ 'userId': localStorage.getItem("loginUserId"), "dirPath": this.dirValue, "indexDirPath": this.IndexDirPath, "removedFilesLogPath": this.removeLogPath, "filesLogPath": this.InputFileListPath, "searchedFilesPathlog" : this.searchedFilesPathlog } as Config).subscribe(response => {
         this.spinner.hide();
         console.log(response.dirPath);
       });

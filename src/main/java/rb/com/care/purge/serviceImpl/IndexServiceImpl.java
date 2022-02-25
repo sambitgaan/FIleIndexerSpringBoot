@@ -11,6 +11,8 @@ import org.apache.lucene.store.LockObtainFailedException;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import rb.com.care.purge.model.Config;
+import rb.com.care.purge.service.ConfigService;
 import rb.com.care.purge.service.IndexService;
 import rb.com.care.purge.service.ParallelIndexService;
 import rb.com.care.purge.service.SequentialIndexService;
@@ -33,6 +35,9 @@ public class IndexServiceImpl implements IndexService {
     @Autowired
     ParallelIndexService parallelIndexService;
 
+    @Autowired
+    private ConfigService configService;
+
     // Sequential Approach
     public String generateSequentialIndex() throws CorruptIndexException, LockObtainFailedException, IOException, ParseException {
         File dataDirectory = new File(properties.getDirectory());
@@ -44,9 +49,9 @@ public class IndexServiceImpl implements IndexService {
     }
 
     // Concurrent Approach
-    public String generateParallelIndex() throws IOException, ParseException {
-
-        File dataDirectory = new File(properties.getDirectory());
+    public String generateParallelIndex(String userId) throws IOException, ParseException {
+        Config config = configService.findConfigByUserId(Long.parseLong(userId));
+        File dataDirectory = new File(config.getDirPath());
         String response = parallelIndexService.startParallelIndexing(dataDirectory);
         return response;
     }
@@ -89,7 +94,7 @@ public class IndexServiceImpl implements IndexService {
     }
 
     // Merging generated directories into common directory
-    public String mergeIndexesInSingleDirectory() throws CorruptIndexException, IOException, ParseException {
+    public String mergeIndexesInSingleDirectory(String userId) throws CorruptIndexException, IOException, ParseException {
 
         Directory dir0 = getIndexDirectory("IndexDir0");
         Directory dir1 = getIndexDirectory("IndexDir1");
@@ -102,7 +107,9 @@ public class IndexServiceImpl implements IndexService {
         Directory dir8 = getIndexDirectory("IndexDir8");
         Directory dir9 = getIndexDirectory("IndexDir9");
 
-        IndexWriter writer = getConcurrentIndexWriterConfig(properties.getIndexDirectory());
+        Config config = configService.findConfigByUserId(Long.parseLong(userId));
+
+        IndexWriter writer = getConcurrentIndexWriterConfig(config.getIndexDirPath());
         writer.addIndexes(dir0, dir1, dir2, dir3, dir4, dir5, dir6, dir7, dir8, dir9);
         writer.close();
 

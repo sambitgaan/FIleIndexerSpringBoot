@@ -101,22 +101,22 @@
         </div><br /><br />
         <div class="row">
             <!-- <div class="col-lg-2 text-right"><b>Merged Dir Path</b></div> -->
-            <!-- <div class="custom-file col-lg-5 ml-5 mb-3">
+            <div class="custom-file col-lg-5 ml-5 mb-3">
                 <div class="form-group">
-                    <label for="exampleInputEmail1"><b>Merged Dir Path</b></label>
-                    <input type="text" class="form-control" id="mergeDirPath" name="mergeDirPath"
-                        formControlName="mergedDirInput" placeholder="Enter Path" required>
+                    <label for="exampleInputEmail1"><b>Search File Path</b></label>
+                    <input type="text" class="form-control" id="searchedFilesPathlog" name="searchedFilesPathlog"
+                        formControlName="searchedFilesPathlog" placeholder="Enter Path" [(ngModel)]="searchedFilesPathlog"  required>
                     <small class="form-text text-danger"
-                        *ngIf="formName.get('mergedDirInput').touched && formName.get('mergedDirInput').hasError('required')">This
+                        *ngIf="formName.get('searchedFilesPathlog').touched && formName.get('searchedFilesPathlog').hasError('required')">This
                         field is required!</small>
-                </div> -->
+                </div>
                 <!-- <input type="file" class="custom-file-input" id="customFile" webkitdirectory mozdirectory />
             <label class="custom-file-label" for="customFile">
                 <span *ngIf="mergedDirPath != ''"></span>
                 <span *ngIf="mergedDirPath == ''">Choose Folder</span>
             </label> -->
-            <!-- </div>
-            <div class="col-lg-5 ml-5"></div>-->
+            </div>
+            <div class="col-lg-5 ml-5"></div>
         </div><br /><br /> 
         <div class="row pr-5">
             <div class="col-lg-8">&nbsp;</div>

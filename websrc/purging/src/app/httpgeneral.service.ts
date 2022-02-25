@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, of, tap } from 'rxjs';
-import { Config } from './models/config';
-import { LoginData, LoginResponse, UserData } from './models/user';
+import { Config, IndexResponse } from './models/config';
+import { LoginData, LoginResponse, UserData, IndexRequest } from './models/user';
 
 interface QueryParams {
   [key: string]: string | number;
@@ -26,20 +26,28 @@ export class HttpgeneralService {
   }
 
 
-  startIndex() {
-    return this.http.get<"">(this.END_POINT + '/rb/startIndex');
+  startIndex(data : IndexRequest) : Observable<IndexResponse> {
+    return this.http.post<IndexResponse>(this.END_POINT + '/rb/startIndex', JSON.stringify(data), httpOptions).pipe(
+      tap((updateHero: IndexResponse) => console.log(`Index generated w/ id=${updateHero}`)),
+      catchError(this.handleError<IndexResponse>('Indexes generated')));
   }
 
-  mergeIndexes() {
-    return this.http.get<"">(this.END_POINT + '/rb/startMerge');
+  mergeIndexes(data : IndexRequest) : Observable<IndexResponse> {
+    return this.http.post<IndexResponse>(this.END_POINT + '/rb/startMerge', JSON.stringify(data), httpOptions).pipe(
+      tap((updateHero: IndexResponse) => console.log(`Indexes Merged=${updateHero}`)),
+      catchError(this.handleError<IndexResponse>('Indexes Merged')));
   }
 
-  searchFile() {
-    return this.http.get<"">(this.END_POINT + '/rb/searchIndex');
+  searchFile(data : IndexRequest) : Observable<IndexResponse> {
+    return this.http.post<IndexResponse>(this.END_POINT + '/rb/searchIndex', JSON.stringify(data), httpOptions).pipe(
+      tap((updateHero: IndexResponse) => console.log(`Files paths generated=${updateHero}`)),
+      catchError(this.handleError<IndexResponse>('FIle paths added')));
   }
 
-  deleteSearchedFiles() {
-    return this.http.get<"">(this.END_POINT + '/rb/deleteFiles');
+  deleteSearchedFiles(data : IndexRequest) : Observable<IndexResponse> {
+    return this.http.post<IndexResponse>(this.END_POINT + '/rb/deleteFiles', JSON.stringify(data), httpOptions).pipe(
+      tap((updateHero: IndexResponse) => console.log(`Files deleted=${updateHero}`)),
+      catchError(this.handleError<IndexResponse>('Files deleted successfully')));
   }
 
   login(data : LoginData): Observable<LoginResponse> {

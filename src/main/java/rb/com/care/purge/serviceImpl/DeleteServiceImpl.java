@@ -3,6 +3,8 @@ package rb.com.care.purge.serviceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
+import rb.com.care.purge.model.Config;
+import rb.com.care.purge.service.ConfigService;
 import rb.com.care.purge.service.DeleteService;
 import rb.com.care.purge.util.ClassUsingProperty;
 
@@ -16,20 +18,21 @@ import java.nio.file.Paths;
 public class DeleteServiceImpl implements DeleteService {
 
     @Autowired
-    ClassUsingProperty properties;
+    private ConfigService configService;
 
     @Override
-    public String deleteFiles() {
-        findIndexAndDeleteFiles();
+    public String deleteFiles(String userId) {
+        findIndexAndDeleteFiles(Long.parseLong(userId));
         return null;
     }
 
-    private void findIndexAndDeleteFiles() {
+    private void findIndexAndDeleteFiles(Long userId) {
         int filesDeleted = 0;
         int filesNotDeleted = 0;
         try {
-            File searchedFile = new File(properties.getIndexSearchFileName());
-            File logFile = new File(properties.getLogFile());
+            Config config = configService.findConfigByUserId(userId);
+            File searchedFile = new File(config.getSearchedFilesPathlog());
+            File logFile = new File(config.getRemovedFilesLogPath());
             BufferedReader br = new BufferedReader(new FileReader(searchedFile));
             BufferedWriter bw = new BufferedWriter(new FileWriter(logFile));
             String fileName;

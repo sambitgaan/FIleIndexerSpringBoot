@@ -4,15 +4,15 @@ import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import rb.com.care.purge.model.IndexRequestDto;
 import rb.com.care.purge.model.Response;
+import rb.com.care.purge.model.Users;
 import rb.com.care.purge.service.DeleteService;
 import rb.com.care.purge.service.IndexService;
 import rb.com.care.purge.service.SearchService;
 
+import javax.validation.Valid;
 import java.io.IOException;
 
 @RestController
@@ -29,27 +29,26 @@ public class IndexController
     DeleteService deleteService;
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/startIndex", method = RequestMethod.GET)
-    public ResponseEntity<Object> startIndex()
+    @RequestMapping(value = "/startIndex", method = RequestMethod.POST)
+    public ResponseEntity<Response> startIndex(@Valid @RequestBody IndexRequestDto user)
     {
+        Response response = new Response();
         try {
-            indexService.generateParallelIndex();
+            String Response = indexService.generateParallelIndex(user.getUserId());
+            response.setMessage(Response);
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
-
-        Response response = new Response();
         response.setStatus(HttpStatus.OK);
-        response.setMessage("Index has been generated");
         return ResponseEntity.ok(response);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/startMerge", method = RequestMethod.GET)
-    public ResponseEntity<Object> mergeIndexesInSingleDirectory()
+    @RequestMapping(value = "/startMerge", method = RequestMethod.POST)
+    public ResponseEntity<Response> mergeIndexesInSingleDirectory(@Valid @RequestBody IndexRequestDto dto)
     {
         try {
-            indexService.mergeIndexesInSingleDirectory();
+            indexService.mergeIndexesInSingleDirectory(dto.getUserId());
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
@@ -60,11 +59,11 @@ public class IndexController
         return ResponseEntity.ok(response);
     }
 
-    @RequestMapping(value = "/startFileIndex", method = RequestMethod.GET)
-    public ResponseEntity<String> startFileIndex()
+    @RequestMapping(value = "/startFileIndex", method = RequestMethod.POST)
+    public ResponseEntity<String> startFileIndex(@Valid @RequestBody IndexRequestDto user)
     {
         try {
-            indexService.generateParallelIndex();
+            indexService.generateParallelIndex(user.getUserId());
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
@@ -72,11 +71,11 @@ public class IndexController
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/searchIndex", method = RequestMethod.GET)
-    public ResponseEntity<Object> searchIndex()
+    @RequestMapping(value = "/searchIndex", method = RequestMethod.POST)
+    public ResponseEntity<Response> searchIndex(@Valid @RequestBody IndexRequestDto user)
     {
         try {
-            searchService.searchFies();
+            searchService.searchFies(user.getUserId());
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
@@ -87,10 +86,10 @@ public class IndexController
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/deleteFiles", method = RequestMethod.GET)
-    public ResponseEntity<Object> deleteFiles()
+    @RequestMapping(value = "/deleteFiles", method = RequestMethod.POST)
+    public ResponseEntity<Response> deleteFiles(@Valid @RequestBody IndexRequestDto user)
     {
-        deleteService.deleteFiles();
+        deleteService.deleteFiles(user.getUserId());
         Response response = new Response();
         response.setStatus(HttpStatus.OK);
         response.setMessage("File Deleted Successfully");
