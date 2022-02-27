@@ -1,0 +1,34 @@
+.title {
+    font-family: 'Energy Display';
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 3.33333rem;
+}
+
+.hContainer {
+    position:fixed;
+    width: 100%;
+    background: transparent linear-gradient(55deg, #C41974 0%, #FF007F 52%, #FF1172 52%, #FF593D 100%) 0% 0%;
+    height: 350px;
+    color: white;
+}
+
+.user {
+    font-family: "Energy Bold";
+    color: #fff;
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+.welcome {
+    color: #000;
+    font-weight: 600;
+}
+
+.carousel-control-prev:hover{
+    background: rgba(0, 0, 0, 0.7);
+}
+.carousel-control-next:hover{
+    background: rgba(0, 0, 0, 0.7);
+}

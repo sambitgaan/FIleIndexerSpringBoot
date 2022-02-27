@@ -7,19 +7,32 @@ import { SearchComponent } from './search/search.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ConfigComponent } from './config/config.component';
 import { DeleteComponent } from './delete/delete.component';
+import { MainComponent } from './main/main.component';
 
-const routes: Routes = [];
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { AuthGuard } from './shared/auth.guard';
 
+//, canActivate: [AuthGuard]
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'index', component: IndexComponent },
-  { path: 'search', component: SearchComponent },
-  { path: 'remove', component: DeleteComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'config', component: ConfigComponent },
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   {
     path: 'admin',
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
+    children: [
+      { path: '', component: MainComponent},
+      { path: 'index', component: IndexComponent, canActivate: [AuthGuard] },
+      { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
+      { path: 'remove', component: DeleteComponent, canActivate: [AuthGuard] },
+      { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+      { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },
+    ]
   },
   { path: '**', component: PageNotFoundComponent }
 ];

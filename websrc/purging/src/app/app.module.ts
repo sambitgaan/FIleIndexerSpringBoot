@@ -13,20 +13,31 @@ import { ConfigComponent } from './config/config.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { BootstrapIconsModule } from 'ng-bootstrap-icons';
-import { Alarm, App, Bookmark, Person, Twitter } from 'ng-bootstrap-icons/icons';
+import { Alarm, App, Bookmark, Person, Twitter, Facebook, Linkedin, Github } from 'ng-bootstrap-icons/icons';
 import { NgxSpinnerModule } from "ngx-spinner";
 
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { DeleteComponent } from './delete/delete.component';
 import { ToastsContainer } from './toasts-container.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
+import { AlertComponent } from './directives/alert.component';
+import { AuthGuard } from './shared/auth.guard';
+import { AlertService } from './service/alert.service';
+import { AuthenticationService } from './service/authentication.service';
+import { UserService } from './service/user.service';
+import { MainComponent } from './main/main.component';
 
 const icons = {
   Alarm,
   App,
   Bookmark,
   Person,
-  Twitter
+  Twitter,
+  Facebook,
+  Linkedin,
+  Github
 };
 
 
@@ -39,7 +50,11 @@ const icons = {
     ProfileComponent,
     ConfigComponent,
     DeleteComponent,
-    ToastsContainer
+    ToastsContainer,
+    LoginComponent,
+    RegisterComponent,
+    AlertComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +67,13 @@ const icons = {
     BrowserAnimationsModule,
     NgxSpinnerModule
   ],
-  providers: [HttpgeneralService],
+  providers: [
+    AuthGuard,
+    AlertService,
+    AuthenticationService,
+    UserService, 
+    HttpgeneralService
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

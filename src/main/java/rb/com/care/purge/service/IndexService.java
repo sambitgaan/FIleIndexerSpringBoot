@@ -12,9 +12,9 @@ public interface IndexService {
     public String generateSequentialIndex() throws CorruptIndexException, LockObtainFailedException, IOException, ParseException;
 
     //Thread Approach
-    public String generateParallelIndex() throws CorruptIndexException, LockObtainFailedException, IOException, ParseException;
+    public String generateParallelIndex(String userId) throws CorruptIndexException, LockObtainFailedException, IOException, ParseException;
 
-    public String mergeIndexesInSingleDirectory() throws CorruptIndexException, IOException, ParseException;
+    public String mergeIndexesInSingleDirectory(String userId) throws CorruptIndexException, IOException, ParseException;
 
     //public String generateFileParallelIndex() throws CorruptIndexException, LockObtainFailedException, IOException, ParseException;
 

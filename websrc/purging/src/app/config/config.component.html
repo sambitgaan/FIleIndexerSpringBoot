@@ -20,7 +20,7 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1"><b>Directory Path</b></label>
                     <input type="text" formControlName="dirInput" class="form-control" id="dirInput"
-                        placeholder="Enter Path" />
+                        placeholder="Enter Path" [(ngModel)]="dirValue" />
                     <small class="form-text text-danger"
                         *ngIf="formName.get('dirInput').touched && formName.get('dirInput').hasError('required')">This
                         field is required!</small>
@@ -35,7 +35,7 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1"><b>Deletion Log File</b></label>
                     <input type="text" class="form-control" formControlName="delLogFileInput" id="delLogFilePath"
-                        placeholder="Enter Path" />
+                        placeholder="Enter Path" [(ngModel)]="removeLogPath" />
                     <small class="form-text text-danger"
                         *ngIf="formName.get('delLogFileInput').touched && formName.get('delLogFileInput').hasError('required')">This
                         field is required!</small>
@@ -58,7 +58,7 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1"><b>Index Dir Path</b></label>
                     <input type="text" class="form-control" formControlName="subDirInput" id="subDirInput"
-                        placeholder="Enter Path">
+                        placeholder="Enter Path" [(ngModel)]="IndexDirPath">
                     <small class="form-text text-danger"
                         *ngIf="!subDirError && formName.get('subDirInput').touched && formName.get('subDirInput').hasError('required')">This
                         field is required!</small>
@@ -83,8 +83,8 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1"><b>File List</b></label>
                     <input type="text" class="form-control" id="fileListPath" formControlName="fileListInput"
-                        aria-describedby="emailHelp" placeholder="Enter Path" />
-                    <small class="form-text text-muted"
+                        aria-describedby="emailHelp" placeholder="Enter Path" [(ngModel)]="InputFileListPath" />
+                    <small class="form-text text-danger"
                         *ngIf="formName.get('fileListInput').touched && formName.get('fileListInput').hasError('required')">This
                         field is required!</small>
                     <small class="form-text text-danger"
@@ -103,11 +103,11 @@
             <!-- <div class="col-lg-2 text-right"><b>Merged Dir Path</b></div> -->
             <div class="custom-file col-lg-5 ml-5 mb-3">
                 <div class="form-group">
-                    <label for="exampleInputEmail1"><b>Merged Dir Path</b></label>
-                    <input type="text" class="form-control" id="mergeDirPath" name="mergeDirPath"
-                        formControlName="mergedDirInput" placeholder="Enter Path" required>
+                    <label for="exampleInputEmail1"><b>Search File Path</b></label>
+                    <input type="text" class="form-control" id="searchedFilesPathlog" name="searchedFilesPathlog"
+                        formControlName="searchedFilesPathlog" placeholder="Enter Path" [(ngModel)]="searchedFilesPathlog"  required>
                     <small class="form-text text-danger"
-                        *ngIf="formName.get('mergedDirInput').touched && formName.get('mergedDirInput').hasError('required')">This
+                        *ngIf="formName.get('searchedFilesPathlog').touched && formName.get('searchedFilesPathlog').hasError('required')">This
                         field is required!</small>
                 </div>
                 <!-- <input type="file" class="custom-file-input" id="customFile" webkitdirectory mozdirectory />
@@ -117,7 +117,7 @@
             </label> -->
             </div>
             <div class="col-lg-5 ml-5"></div>
-        </div><br /><br />
+        </div><br /><br /> 
         <div class="row pr-5">
             <div class="col-lg-8">&nbsp;</div>
             <div class="col-lg-4 text-right pr-5" style="float: right;">

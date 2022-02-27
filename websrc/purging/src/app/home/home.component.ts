@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
-
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,8 +13,10 @@ export class HomeComponent implements OnInit {
   showNavigationIndicators = false;
   pauseOnHover = true;
 
+  loginStatus = 'false';
+
   
-  constructor(config: NgbCarouselConfig) { 
+  constructor(config: NgbCarouselConfig, private router: Router) { 
     config.interval = 1500;
     config.wrap = false;
     config.keyboard = false;
@@ -24,7 +26,13 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    if(localStorage.getItem("loginStatus") === "true"){
+      this.loginStatus = 'true';}
+  }
+
+  userLogout() {
+    localStorage.clear();
+    this.router.navigate(["/login"]);
   }
 
 }
