@@ -17,6 +17,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("rb")
+@CrossOrigin
 public class IndexController
 {
     @Autowired

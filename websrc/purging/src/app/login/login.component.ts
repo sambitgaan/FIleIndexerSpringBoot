@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.spinner.show();
     this.httpService.login({ userName: this.model.username, password: this.model.password}).subscribe(response => {
+      this.spinner.hide();
       this.responseMes = response.message;
       if(this.responseMes !== null && this.responseMes !== ""){
         this.toastService.show(response.message, { classname: 'bg-danger text-light', delay: 10000 });
@@ -42,9 +43,9 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("loginStatus", "true");
         localStorage.setItem("loginUser", response.data.userName);
         localStorage.setItem("loginUserId", response.data.userId);
+        localStorage.setItem("token", response.token);
         this.router.navigate(["/"]);
       }
-      this.spinner.hide();
     },error => {
         this.alertService.error(error);
       });

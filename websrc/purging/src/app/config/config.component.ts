@@ -68,6 +68,7 @@ export class ConfigComponent implements OnInit {
       this.spinner.show();
       this.httpService.saveConfig({ 'userId': localStorage.getItem("loginUserId"), "dirPath": this.dirValue, "indexDirPath": this.IndexDirPath, "removedFilesLogPath": this.removeLogPath, "filesLogPath": this.InputFileListPath, "searchedFilesPathlog" : this.searchedFilesPathlog } as Config).subscribe(response => {
         this.spinner.hide();
+        this.toastService.show("Config saved successfully", { classname: 'bg-success text-light', delay: 10000 });
         console.log(response.dirPath);
       });
     }

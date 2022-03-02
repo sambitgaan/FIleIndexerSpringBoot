@@ -20,4 +20,5 @@ export class LoginResponse {
     data!: UserData;
     message!: string;
     status!: string;
+    token!: string;
 }

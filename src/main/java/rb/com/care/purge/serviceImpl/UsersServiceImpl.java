@@ -2,8 +2,9 @@ package rb.com.care.purge.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import rb.com.care.purge.model.Config;
 import rb.com.care.purge.model.Users;
 import rb.com.care.purge.repository.UsersRepository;
 import rb.com.care.purge.service.ConfigService;
@@ -24,6 +25,9 @@ public class UsersServiceImpl implements UsersService {
     @Autowired
     private ConfigService configService;
 
+    @Autowired
+    private PasswordEncoder bcryptEncoder;
+
     @Override
     public List<Users> findAll(){
         List<Users> users = new ArrayList<Users>();
@@ -33,6 +37,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public Users saveOrUpdate(Users user){
+        user.setPassword(bcryptEncoder.encode(user.getPassword()));
         user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         user.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
         usersRepository.save(user);
