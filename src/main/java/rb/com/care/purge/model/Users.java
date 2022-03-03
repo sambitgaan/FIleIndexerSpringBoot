@@ -91,4 +91,6 @@ public class Users {
         this.updatedAt = updatedAt;
     }
 
+    public void getUserName(String userName) {
+    }
 }
